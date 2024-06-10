@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import daisyui from "daisyui";
+import headlessui from "@headlessui/tailwindcss";
 
 export default {
   content: ["./src/**/*.{html,js,jsx,ts,tsx}"],
@@ -8,6 +9,7 @@ export default {
   },
   plugins: [
     daisyui,
+    headlessui
   ],
   daisyui: {
     themes: [
