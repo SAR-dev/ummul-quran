@@ -1,6 +1,6 @@
 const ClassHistory = () => {
     return (
-        <div className="card divide-y divide-base-300 w-full border border-base-300 rounded-r-none sticky top-0">
+        <div className="card divide-y divide-base-300 w-full border border-base-300 rounded-r-none sticky top-0 overflow-hidden">
             <div className="px-5 py-3 bg-base-200 flex justify-between items-center">
                 <div className="font-semibold">
                     Recent Classes
