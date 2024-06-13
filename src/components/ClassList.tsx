@@ -25,7 +25,7 @@ const ClassList = () => {
 
             <div className="relative overflow-x-auto">
                 <table className="w-full text-sm text-left table-auto">
-                    <thead className="text-xs uppercase bg-base-100/50">
+                    <thead className="text-xs uppercase bg-base-100 border-b border-base-300">
                         <tr>
                             <th scope="col" className="px-6 py-3">
                                 #
@@ -43,13 +43,13 @@ const ClassList = () => {
                                 Country
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Actions
+                                Last Note
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         {[...Array(3)].map((_, i) => (
-                            <tr className="bg-base-100 border-b border-base-300" key={i}>
+                            <tr className="bg-base-100 border-b border-base-300 hover:bg-info/20 duration-200 cursor-pointer" key={i}>
                                 <th className="px-6 py-4">{(i + 1).toString().padStart(2, "0")}</th>
                                 <th scope="row" className="px-6 py-4">
                                     12 July, 2024
@@ -58,10 +58,7 @@ const ClassList = () => {
                                 <td className="px-6 py-4">Sayed Ar Rafi</td>
                                 <td className="px-6 py-4">Japan</td>
                                 <td className="px-6 py-4 w-64">
-                                    <div className="flex gap-2">
-                                        <button className="btn btn-sm">Class Link</button>
-                                        <button className="btn btn-sm">Cancel</button>
-                                    </div>
+                                    Simple notes
                                 </td>
                             </tr>
                         ))}
