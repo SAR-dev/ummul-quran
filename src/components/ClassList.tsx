@@ -1,7 +1,10 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { PlusIcon } from '@heroicons/react/24/solid';
+import { useNavigate } from 'react-router-dom';
 
 const ClassList = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="p-8 bg-base-200 card border border-base-300 flex flex-col gap-5">
 
@@ -49,7 +52,7 @@ const ClassList = () => {
                     </thead>
                     <tbody>
                         {[...Array(3)].map((_, i) => (
-                            <tr className="bg-base-100 border-b border-base-300 hover:bg-info/20 duration-200 cursor-pointer" key={i}>
+                            <tr className="bg-base-100 border-b border-base-300 hover:bg-info/20 duration-200 cursor-pointer" onClick={() => navigate("/students/1")} key={i}>
                                 <th className="px-6 py-4">{(i + 1).toString().padStart(2, "0")}</th>
                                 <th scope="row" className="px-6 py-4">
                                     12 July, 2024

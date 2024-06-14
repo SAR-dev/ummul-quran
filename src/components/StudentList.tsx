@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom"
+
 const StudentList = () => {
+    const navigate = useNavigate();
+    
     return (
         <div className="p-8 bg-base-200 card border border-base-300 flex flex-col gap-5">
 
@@ -29,7 +33,7 @@ const StudentList = () => {
                     </thead>
                     <tbody>
                         {[...Array(3)].map((_, i) => (
-                            <tr className="bg-base-100 border-b border-base-300 hover:bg-info/20 duration-200 cursor-pointer" key={i}>
+                            <tr className="bg-base-100 border-b border-base-300 hover:bg-info/20 duration-200 cursor-pointer" onClick={() => navigate("/students/1")} key={i}>
                                 <th scope="row" className="px-6 py-4">
                                     <div className="flex items-center gap-2">
                                         <div className="w-8">
