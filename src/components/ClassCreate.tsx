@@ -25,7 +25,7 @@ const ClassCreate = () => {
                 <option disabled selected>AM/PM</option>
                 <option>2024</option>
             </select>
-            <button className="btn btn-primary">Create Plan</button>
+            <button className="btn btn-neutral">Create Plan</button>
         </div>
     )
 }

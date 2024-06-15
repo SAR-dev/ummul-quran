@@ -7,13 +7,13 @@ const Home = () => {
   return (
     <NavLayout>
       <div className="grid grid-cols-4 w-full">
-        <div className="col-span-3">
-          <div className="p-16 w-full grid grid-cols-1 gap-10">
+        <div className="md:col-span-3 col-span-4 md:p-16 p-5">
+          <div className="w-full grid grid-cols-1 gap-10">
             <ClassList />
             <StudentList />
           </div>
         </div>
-        <div className="col-span-1 py-16">
+        <div className="md:col-span-1 col-span-4 md:py-16 p-5">
           <ClassHistory />
         </div>
       </div>
