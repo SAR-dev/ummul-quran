@@ -1,5 +1,6 @@
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { ArrowUpIcon, PlayIcon, StopIcon } from '@heroicons/react/24/solid'
+import ClassCreate from 'components/ClassCreate'
 import NavLayout from 'components/NavLayout'
 
 const Student = () => {
@@ -8,19 +9,9 @@ const Student = () => {
       <div className="grid grid-cols-4 w-full">
         <div className="col-span-3">
           <div className="p-16 w-full grid grid-cols-1 gap-16">
-            {/* left class list */}
-
-            {/* add class form show */}
-            {/* latest class first */}
-            {/* group by month of year*/}
-
-            {/* fields */}
-            {/* date */}
-            {/* planned time */}
-            {/* actual time */}
-            {/* planned contents */}
-            {/* actual contents */}
-            {/* note */}
+            <div className="card p-5 border border-base-300 bg-base-200">
+              <ClassCreate />
+            </div>
             <div className="flex flex-col gap-3">
               <div className="font-semibold text-xl">Upcoming Class</div>
               <div className="relative overflow-x-auto">
@@ -131,7 +122,39 @@ const Student = () => {
           </div>
         </div>
         <div className="col-span-1 py-16">
-          {/* right student info */}
+          <div className="sticky top-0 card rounded-r-none border border-base-300 p-5">
+            <div className="h-32 w-full flex flex-col gap-5 items-start">
+              <img className='h-32 card w-32 object-cover' src="https://avatar.iran.liara.run/public/38" alt="" />
+            </div>
+            <table className="w-96 text-left table-auto mt-5">
+                <tbody>
+                    <tr>
+                      <th className="py-2">Full Name</th>
+                      <td className="py-2">Sayed Ar Rafi</td>
+                    </tr>
+                    <tr>
+                      <th className="py-2">Nick Name</th>
+                      <td className="py-2">Rafi</td>
+                    </tr>
+                    <tr>
+                      <th className="py-2">Gender</th>
+                      <td className="py-2">Male</td>
+                    </tr>
+                    <tr>
+                      <th className="py-2">Country</th>
+                      <td className="py-2">Japan</td>
+                    </tr>
+                    <tr>
+                      <th className="py-2">Contact No</th>
+                      <td className="py-2">None</td>
+                    </tr>
+                    <tr>
+                      <th className="py-2">Whatsapp No</th>
+                      <td className="py-2">None</td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
         </div>
       </div>
     </NavLayout>
