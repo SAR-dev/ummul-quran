@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "pages/Home";
 import Student from "pages/Student";
 import SignIn from "pages/SignIn";
+import UserManagement from "pages/admin/UserManagement";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
   {
     path: "/students/:id",
     element: <Student />,
+  },
+  {
+    path: "/admin/users",
+    element: <UserManagement />,
   },
 ]);
 

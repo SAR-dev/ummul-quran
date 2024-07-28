@@ -6,6 +6,7 @@ import router from './router'
 import MainToaster from 'components/MainToaster'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NotificationProvider } from 'contexts/Notification'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const queryClient = new QueryClient()
 
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <MainToaster />
         <RouterProvider router={router} />
       </NotificationProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </React.StrictMode>,
 )

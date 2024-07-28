@@ -2,12 +2,14 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { constants } from './constantStore'
 import { JwtPayload, jwtDecode } from 'jwt-decode'
+import { CustomJwtPayload } from 'types/base'
 
 type AuthStore = {
     token: string | null,
     setToken: (props: string | null) => void,
     isLoggedIn: () => boolean,
-    getLoggedInUserId: () => number
+    getLoggedInUserId: () => number,
+    getLoggedInUserRole: () => string | null | undefined
 }
 
 export const useAuthStore = create<AuthStore>()(
@@ -29,11 +31,20 @@ export const useAuthStore = create<AuthStore>()(
             getLoggedInUserId: () => {
                 const authToken = get().token;
                 if(!authToken) return 0;
-                const decoded: JwtPayload = jwtDecode(authToken)
+                const decoded: CustomJwtPayload = jwtDecode(authToken)
                 const now = Math.floor(Date.now() / 1000);
                 if(!decoded.exp || !decoded.iat) return 0;
                 if(decoded.exp <= now) return 0;
                 return Number(decoded.sub);
+            },
+            getLoggedInUserRole: () => {
+                const authToken = get().token;
+                if(!authToken) return null;
+                const decoded: CustomJwtPayload = jwtDecode(authToken)
+                const now = Math.floor(Date.now() / 1000);
+                if(!decoded.exp || !decoded.iat) return null;
+                if(decoded.exp <= now) return null;
+                return decoded.role
             }
         }), {
         name: constants.JWT_AUTH_KEY,
