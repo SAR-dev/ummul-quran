@@ -1,5 +1,6 @@
 import ThemeSwitcher from 'packages/ThemeSwitcher'
 import { Link } from 'react-router-dom'
+import SignInButton from './SignInButton'
 
 const Navbar = () => {
   return (
@@ -13,6 +14,7 @@ const Navbar = () => {
         <Link to="" className="btn btn-ghost">Students</Link>
         <Link to="" className="btn btn-ghost">History</Link>
         <ThemeSwitcher />
+        <SignInButton />
       </div>
     </nav>
   )

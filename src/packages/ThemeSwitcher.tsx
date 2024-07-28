@@ -1,6 +1,7 @@
 import { SwatchIcon } from '@heroicons/react/24/solid';
 import { ThemeName, useThemeStore } from 'stores/themeStore';
 import DropdownSelect from './DropdownSelect';
+import { useEffect } from 'react';
 
 interface ThemeIcons {
     [key: string]: string;
@@ -22,6 +23,11 @@ const ThemeSwitcher = () => {
         const value = themeIcons[key]
         return value !== undefined ? value : "❓";
     }
+
+    useEffect(() => {
+        setTheme(theme)
+    }, [])
+
 
     return (
         <div>

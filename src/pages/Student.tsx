@@ -1,7 +1,7 @@
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { ArrowUpIcon, PlayIcon, StopIcon } from '@heroicons/react/24/solid'
 import ClassCreate from 'components/ClassCreate'
-import NavLayout from 'components/NavLayout'
+import NavLayout from 'layouts/NavLayout'
 
 const Student = () => {
   return (
