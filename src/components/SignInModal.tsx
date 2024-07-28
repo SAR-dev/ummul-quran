@@ -11,12 +11,7 @@ import { NotificationType } from 'types/notification';
 import { sendMagicLink, verifyKey } from 'api/auth';
 import { AuthTokenType } from 'types/token';
 
-interface SignInModalProps {
-
-}
-
-const SignInModal = ({...props}: SignInModalProps) => {
-    
+const SignInModal = () => {
     const notification = useNotification()
     const navigate = useNavigate()
     const { setToken } = useAuthStore()
