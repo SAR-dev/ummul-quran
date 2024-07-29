@@ -38,7 +38,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         <Ctx.Provider value={{ add, remove }}>
             {children}
             {data && (
-                <Dialog open={isOpen} onClose={remove} className="relative z-10">
+                <Dialog open={isOpen} onClose={remove} className="relative z-20">
                     <DialogBackdrop className="fixed inset-0 bg-base-content/25" />
                     <div className="fixed inset-0 flex w-screen items-center justify-center">
                         <DialogPanel className="card p-4 bg-base-100 max-w-md">

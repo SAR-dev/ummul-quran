@@ -119,8 +119,15 @@ const SignInModal = () => {
     return (
         <Modal title="Sign In to continue" closeButton onClose={handleClose} isOpen={isOpenSignIn} setIsOpen={setIsOpenSignIn} maxWidth='25rem'>
             {!isMailSent && (
-                <div className="flex flex-col gap-3 pt-5 pb-10">
-                    <input type="text" placeholder="Email Address" className="input input-bordered w-full" disabled={isLoading} value={email} onChange={e => setEmail(e.target.value)} />
+                <div className="flex flex-col gap-3 pb-5">
+                    <input 
+                        type="text" 
+                        placeholder="Email Address" 
+                        className="input input-bordered w-full" 
+                        disabled={isLoading} 
+                        value={email} 
+                        onChange={e => setEmail(e.target.value)} 
+                    />
                     <div className="text-xs text-base-content/75">
                         A confirmation link with magic token will be sent in your email
                     </div>
@@ -138,7 +145,7 @@ const SignInModal = () => {
                 </div>
             )}
             {isMailSent && (
-                <div className="flex flex-col gap-3 pt-5 pb-10">
+                <div className="flex flex-col gap-3 pb-5">
                     <div className="flex gap-1.5" onPaste={e => handlePasteData((e.clipboardData.getData("Text")))}>
                         {[...Array(constants.AUTH_KEY_SIZE)].map((_, i) => (
                             <input

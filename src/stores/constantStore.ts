@@ -6,4 +6,7 @@ export const constants = {
     REGEX_PATTERN: {
         EMAIL: new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)
     },
+    QUERY_KEYS: {
+        TEACHER_LIST: "teacher-list"
+    }
 }
