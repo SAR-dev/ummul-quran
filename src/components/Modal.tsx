@@ -31,7 +31,7 @@ const Modal = ({
         <Dialog open={isOpen} onClose={() => { }} className="relative z-10">
             <DialogBackdrop className="fixed inset-0 bg-base-content/25" />
             <div className="fixed inset-0 flex w-screen items-center justify-center">
-                <DialogPanel className="card p-4 bg-base-100 min-w-96" style={{ maxWidth }}>
+                <DialogPanel className="card p-4 bg-base-100 min-w-96 w-full" style={{ maxWidth }}>
                     <DialogTitle className="card flex-row p-5 mb-5 bg-base-200 flex justify-between items-center">
                         <div className='text-lg font-semibold'>{title}</div>
                         {closeButton && (

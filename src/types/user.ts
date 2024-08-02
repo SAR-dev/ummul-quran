@@ -12,7 +12,7 @@ export interface UserType {
     location?: string;
     utc: number;
     whatsapp_no?: string;
-    role: string;
+    role: "ADMIN" | "USER" | "OTHER";
     images_id: number;
     created_at: Date;
     updated_at: Date;

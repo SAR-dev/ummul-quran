@@ -8,9 +8,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { constants } from 'stores/constantStore';
 
 const TeacherAddModal = ({
-    isOpen, 
+    isOpen,
     setIsOpen
-}:{
+}: {
     isOpen: boolean,
     setIsOpen: (props: boolean) => void;
 }) => {
@@ -34,7 +34,7 @@ const TeacherAddModal = ({
         }
         addTeacher(payload)
             .then(res => {
-                if(res.error){
+                if (res.error) {
                     notification.add({
                         title: "Error Occured",
                         message: "There were some problem registering teacher. Please try again later.",
@@ -46,20 +46,28 @@ const TeacherAddModal = ({
                         message: "The teacher has been registered successfully. The teacher can login now.",
                         status: NotificationType.SUCCESS
                     })
-                    queryClient.invalidateQueries({queryKey: [constants.QUERY_KEYS.TEACHER_LIST]})
+                    queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.TEACHER_LIST] })
                     setIsOpen(false)
                 }
             })
             .finally(() => setIsLoading(false))
-        
     }
 
     return (
         <Modal title="Add Teacher" closeButton onClose={() => setIsOpen(false)} isOpen={isOpen} setIsOpen={setIsOpen} maxWidth='25rem'>
             <div className="grid grid-cols-1 gap-5">
-                <input type="text" className='input input-bordered' placeholder='Email address' value={email} onChange={e => setEmail(e.target.value)} />
-                <input type="text" className='input input-bordered' placeholder='Name' value={name} onChange={e => setName(e.target.value)} />
-                <input type="text" className='input input-bordered' placeholder='Whats App No' value={whatsAppNo} onChange={e => setWhatsAppNo(e.target.value)} />
+                <label className="input input-bordered flex items-center gap-2">
+                    <div className="font-semibold opacity-75 w-20">Email</div>
+                    <input type="text" className='grow' placeholder='username@email.com' value={email} onChange={e => setEmail(e.target.value)} />
+                </label>
+                <label className="input input-bordered flex items-center gap-2">
+                    <div className="font-semibold opacity-75 w-20">Name</div>
+                    <input type="text" className='grow' placeholder='John Doe' value={name} onChange={e => setName(e.target.value)} />
+                </label>
+                <label className="input input-bordered flex items-center gap-2">
+                    <div className="font-semibold opacity-75 w-20">WhatsApp</div>
+                    <input type="text" className='grow' placeholder='+880*********' value={whatsAppNo} onChange={e => setWhatsAppNo(e.target.value)} />
+                </label>
                 <button className="btn btn-primary" onClick={handleSubmit} disabled={isLoading}>Submit</button>
             </div>
         </Modal>

@@ -1,51 +1,65 @@
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { PlusIcon } from '@heroicons/react/24/solid'
 import { useQuery } from '@tanstack/react-query'
+import { getPackages, PackageListDataType } from 'api/package'
 import { getTeachers, TeacherListDataType } from 'api/teacher'
+import PackageAddModal from 'components/PackageAddModal'
+import PackageInList from 'components/PackageInList'
 import TeacherAddModal from 'components/TeacherAddModal'
+import TeacherInList from 'components/TeacherInList'
 import AdminNavLayout from 'layouts/AdminNavLayout'
 import { useState } from 'react'
 import { constants } from 'stores/constantStore'
 
 const UserManagement = () => {
     const [addTeacherModal, setAddTeacherModal] = useState(false)
-    const [addStudentModal, setAddStudentModal] = useState(false)
+    const [addPackageModal, setAddPackageModal] = useState(false)
 
     const teacherListData = useQuery<TeacherListDataType, Error>({
         queryKey: [constants.QUERY_KEYS.TEACHER_LIST],
         queryFn: () => getTeachers(),
     })
 
+    const packageListData = useQuery<PackageListDataType, Error>({
+        queryKey: [constants.QUERY_KEYS.PACKAGE_LIST],
+        queryFn: () => getPackages(),
+    })
+
     return (
         <AdminNavLayout>
-            <div className="p-16 grid grid-cols-1 gap-5">
-                <div className='flex gap-5'>
-                    <button className="btn btn-secondary" onClick={() => setAddTeacherModal(true)}>Add Teacher</button>
-                    <button className="btn btn-secondary" onClick={() => setAddStudentModal(true)}>Add Student</button>
-                </div>
-                <div className='w-96'>
-                    <div className="grid grid-cols-1 gap-5">
-                        {teacherListData.data?.data.map((teacher, i) => (
-                            <div className='card p-5 border border-base-300 flex-row justify-between group' key={i}>
-                                <div className="flex gap-2 items-center">
-                                    <div className="h-8 w-8">
-                                        <img src={teacher.user.avatar.thumbnail_url} className='h-8 w-8 object-cover rounded-full' alt="" />
-                                    </div>
-                                    <div className="font-semibold">{teacher.user.name}</div>
-                                </div>
-                                <div className="flex gap-2 opacity-0 group-hover:opacity-100">
-                                    <button className="btn btn-sm btn-square">
-                                        <PencilIcon className='h-4 w-4' />
-                                    </button>
-                                    <button className="btn btn-sm btn-square">
-                                        <TrashIcon className='h-4 w-4' />
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
+            <div className="px-16 py-10">
+                <div className="flex gap-10 items-start">
+                    <div className="grid grid-cols-1 gap-5 w-[30rem]">
+                        <div className="flex items-center justify-between">
+                            <div className='font-semibold opacity-75'>👨‍🎓 Teacher List</div>
+                            <button className="btn btn-sm btn-ghost" onClick={() => setAddTeacherModal(true)}>
+                                <PlusIcon className='h-5 w-5' />
+                                Add Teacher
+                            </button>
+                        </div>
+                        <div className="grid grid-cols-1 gap-5">
+                            {teacherListData.data?.data.map((teacher, i) => (
+                                <TeacherInList teacher={teacher} key={i} />
+                            ))}
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 gap-5 w-96">
+                        <div className="flex items-center justify-between">
+                            <div className='font-semibold opacity-75'>🏷️ Package List</div>
+                            <button className="btn btn-sm btn-ghost" onClick={() => setAddPackageModal(true)}>
+                                <PlusIcon className='h-5 w-5' />
+                                Add Package
+                            </button>
+                        </div>
+                        <div className="grid grid-cols-1 gap-5">
+                            {packageListData.data?.data.map((pac, i) => (
+                                <PackageInList pac={pac} key={i} />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
             <TeacherAddModal isOpen={addTeacherModal} setIsOpen={setAddTeacherModal} />
+            <PackageAddModal isOpen={addPackageModal} setIsOpen={setAddPackageModal} />
         </AdminNavLayout>
     )
 }
