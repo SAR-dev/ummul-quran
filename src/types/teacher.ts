@@ -25,6 +25,7 @@ interface Pack {
 }
 
 interface Student {
+    students_id: number;
     user: UserType;
     pack: Pack;
     class_link: string;
@@ -34,4 +35,12 @@ export interface TeacherListType {
     teachers_id: number;
     user: UserType;
     students: Student[];
+}
+
+export interface StudentListType {
+    students_id: number;
+    user: UserType;
+    pack: Pack;
+    class_link: string;
+    teacher: UserType;
 }

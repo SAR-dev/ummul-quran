@@ -1,4 +1,4 @@
-import { TeacherAddType, TeacherListType } from "types/teacher";
+import { StudentListType, TeacherAddType, TeacherListType } from "types/teacher";
 import api from "./base";
 import { DataResponseType } from "types/base";
 
@@ -20,6 +20,21 @@ export interface TeacherListDataType {
 export const getTeachers = (): Promise<TeacherListDataType> => {
     return api
         .get("/admin/teachers")
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
+
+export interface StudentListDataType {
+    data: StudentListType[]
+}
+
+export const getStudentsByTeacher = (): Promise<StudentListDataType> => {
+    return api
+        .get("/teacher/students")
         .then((res) => {
             return { data: res.data };
         })

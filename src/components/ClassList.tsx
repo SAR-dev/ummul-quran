@@ -68,7 +68,6 @@ const ClassList = () => {
                     </tbody>
                 </table>
             </div>
-
         </div>
     )
 }

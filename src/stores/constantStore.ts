@@ -9,5 +9,6 @@ export const constants = {
     QUERY_KEYS: {
         TEACHER_LIST: "teacher-list",
         PACKAGE_LIST: "package-list",
+        STUDENT_LIST_BY_TEACHER: "student-list-by-teacher",
     }
 }
