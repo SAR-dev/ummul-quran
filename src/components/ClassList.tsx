@@ -6,6 +6,7 @@ import { formatDateRange, formatTimeRange } from 'helpers/date';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { constants } from 'stores/constantStore';
+import Countdown from 'react-countdown';
 
 const ClassList = () => {
     const navigate = useNavigate();
@@ -28,6 +29,20 @@ const ClassList = () => {
         });
     }, [upcomingClassListData]);
 
+    const nearestUpcomingClass = useMemo(() => {
+        if (!upcomingClassListData.data || upcomingClassListData.data.data.length === 0) {
+            return null;
+        }
+
+        const now = new Date();
+
+        const upcomingClasses = upcomingClassListData.data.data
+            .filter((classPlan) => new Date(classPlan.start_at) > now)
+            .sort((a, b) => new Date(a.start_at).getTime() - new Date(b.start_at).getTime());
+
+        return upcomingClasses.length > 0 ? upcomingClasses[0] : null;
+    }, [upcomingClassListData]);
+
     return (
         <div className="p-8 bg-base-200 card border border-base-300 flex flex-col gap-5">
 
@@ -44,10 +59,17 @@ const ClassList = () => {
                 </div>
             </div>
 
-            <div className="bg-info/30 px-6 py-3 card flex-row gap-2 items-center">
-                <InformationCircleIcon className="h-5 w-5" />
-                You have a <b>60 minutes</b> class in <b>35 minutes</b> with <b>Sayed Rafi</b> of Japan
-            </div>
+            {nearestUpcomingClass && (
+                <div className="bg-info/30 px-6 py-3 card flex-row gap-2 items-center">
+                    <InformationCircleIcon className="h-5 w-5" />
+                    You have a 
+                    <b>{nearestUpcomingClass.pack.minutes} minutes</b> 
+                    class with 
+                    <b>{nearestUpcomingClass.student.name}</b> 
+                    {nearestUpcomingClass.student.location ? `of ${nearestUpcomingClass.student.location}` : ""}
+                    in <b><Countdown date={new Date(nearestUpcomingClass.start_at)} /></b> 
+                </div>
+            )}
 
             <div className="relative overflow-x-auto">
                 <table className="w-full text-sm text-left table-auto">
@@ -86,7 +108,7 @@ const ClassList = () => {
                                 <td className="px-6 py-4">
                                     {class_plan.student.name}
                                 </td>
-                                <td className="px-6 py-4 w-64">
+                                <td className="px-6 py-4">
                                     {class_plan.pack.minutes} Min
                                 </td>
                                 <td className="px-6 py-4">{class_plan.student.location}</td>
