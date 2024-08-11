@@ -23,6 +23,7 @@ const StudentAddModal = ({
 
     const [email, setEmail] = useState("")
     const [name, setName] = useState("")
+    const [location, setLocation] = useState("")
     const [whatsAppNo, setWhatsAppNo] = useState("")
     const [classLink, setClassLink] = useState("")
     const [price, setPrice] = useState(0)
@@ -53,7 +54,8 @@ const StudentAddModal = ({
             },
             user: {
                 name: name,
-                whatsapp_no: whatsAppNo
+                whatsapp_no: whatsAppNo,
+                location
             }
         }
         addStudent(payload)
@@ -91,6 +93,10 @@ const StudentAddModal = ({
                 <label className="input input-bordered flex items-center gap-2">
                     <div className="font-semibold opacity-75 w-20">Phone</div>
                     <input type="text" className='grow' placeholder='880*********' value={whatsAppNo} onChange={e => setWhatsAppNo(e.target.value)} />
+                </label>
+                <label className="input input-bordered flex items-center gap-2">
+                    <div className="font-semibold opacity-75 w-20">Location</div>
+                    <input type="text" className='grow' placeholder='Dhaka, Bangladesh' value={location} onChange={e => setLocation(e.target.value)} />
                 </label>
                 <label className="input input-bordered flex items-center gap-2">
                     <div className="font-semibold opacity-75 w-20">Class Link</div>

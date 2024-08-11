@@ -13,5 +13,6 @@ export const constants = {
         PACKAGE_LIST: "package-list",
         STUDENT_LIST_BY_TEACHER: "student-list-by-teacher",
         CLASS_LIST: "class-list",
+        UPCOMING_CLASS_LIST: "upcoming-class-list",
     }
 }

@@ -1,7 +1,7 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { useQuery } from '@tanstack/react-query';
-import { ClassPlanListDataType, getClassPlans } from 'api/teacher';
+import { getUpcomingClassPlans, UpcomingClassPlanListDataType } from 'api/teacher';
 import { formatDateRange, formatTimeRange } from 'helpers/date';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,23 +10,23 @@ import { constants } from 'stores/constantStore';
 const ClassList = () => {
     const navigate = useNavigate();
 
-    const classListData = useQuery<ClassPlanListDataType, Error>({
-        queryKey: [constants.QUERY_KEYS.CLASS_LIST],
-        queryFn: () => getClassPlans(),
+    const upcomingClassListData = useQuery<UpcomingClassPlanListDataType, Error>({
+        queryKey: [constants.QUERY_KEYS.UPCOMING_CLASS_LIST],
+        queryFn: () => getUpcomingClassPlans()
     })
 
     const todayClasses = useMemo(() => {
-        if (!classListData?.data?.data) return [];
+        if (!upcomingClassListData.data) return [];
 
         const today = new Date();
         const startOfDay = new Date(today.setHours(0, 0, 0, 0)).getTime();
         const endOfDay = new Date(today.setHours(23, 59, 59, 999)).getTime();
 
-        return classListData.data.data.data.filter((classPlan) => {
+        return upcomingClassListData.data.data.filter((classPlan) => {
             const classTime = new Date(classPlan.start_at).getTime();
             return classTime >= startOfDay && classTime <= endOfDay;
         });
-    }, [classListData]);
+    }, [upcomingClassListData]);
 
     return (
         <div className="p-8 bg-base-200 card border border-base-300 flex flex-col gap-5">
@@ -75,7 +75,7 @@ const ClassList = () => {
                     </thead>
                     <tbody>
                         {todayClasses.map((class_plan, i) => (
-                            <tr className="bg-base-100 border-b border-base-300 hover:bg-info/20 duration-200 cursor-pointer" onClick={() => navigate("/students/1")} key={i}>
+                            <tr className="bg-base-100 border-b border-base-300 hover:bg-info/20 duration-200 cursor-pointer" onClick={() => navigate(`/teacher/class/${class_plan.id}`)} key={i}>
                                 <th className="px-6 py-4">{(i + 1).toString().padStart(2, "0")}</th>
                                 <th scope="row" className="px-6 py-4">
                                     {formatDateRange(class_plan.start_at, class_plan.finish_at)}
@@ -83,7 +83,9 @@ const ClassList = () => {
                                 <th className="px-6 py-4">
                                     {formatTimeRange(class_plan.start_at, class_plan.finish_at)}
                                 </th>
-                                <td className="px-6 py-4">{class_plan.student.name}</td>
+                                <td className="px-6 py-4">
+                                    {class_plan.student.name}
+                                </td>
                                 <td className="px-6 py-4 w-64">
                                     {class_plan.pack.minutes} Min
                                 </td>
@@ -94,10 +96,10 @@ const ClassList = () => {
                 </table>
             </div>
 
-            {(((classListData.data?.data.total_result ?? 0) - todayClasses.length) > 0) && (
+            {(((upcomingClassListData.data?.data.length ?? 0) - todayClasses.length) > 0) && (
                 <div className="bg-base-100 px-6 py-3 card flex-row gap-2 items-center">
                     <InformationCircleIcon className="h-5 w-5" />
-                    You have a {(classListData.data?.data.total_result ?? 0) - todayClasses.length} classes planned after today
+                    You have a {(upcomingClassListData.data?.data.length ?? 0) - todayClasses.length} classes planned after today
                 </div>
             )}
         </div>

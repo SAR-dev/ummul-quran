@@ -4,6 +4,7 @@ import Student from "pages/Student";
 import SignIn from "pages/SignIn";
 import UserManagement from "pages/admin/UserManagement";
 import CreateClass from "pages/teacher/CreateClass";
+import ManageClass from "pages/teacher/ManageClass";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/teacher/create-class",
     element: <CreateClass />,
+  },
+  {
+    path: "/teacher/class/:id",
+    element: <ManageClass />,
   },
   {
     path: "/students/:id",

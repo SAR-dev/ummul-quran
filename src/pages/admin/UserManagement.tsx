@@ -10,9 +10,6 @@ import AdminNavLayout from 'layouts/AdminNavLayout'
 import { useState } from 'react'
 import { constants } from 'stores/constantStore'
 
-// location
-// utc
-
 const UserManagement = () => {
     const [addTeacherModal, setAddTeacherModal] = useState(false)
     const [addPackageModal, setAddPackageModal] = useState(false)

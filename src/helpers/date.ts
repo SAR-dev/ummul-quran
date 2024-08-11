@@ -80,10 +80,10 @@ export const formatDateRange = (date1: Date, date2: Date) => {
     // Compare dates
     if (year1 === year2 && month1 === month2 && day1 === day2) {
         // Dates are the same
-        return `${year1}-${month1}-${day1}`;
+        return `${day1} ${month1}, ${year1}`;
     } else {
         // Dates are different
-        return `${year1}-${month1}-${day1} (*)`;
+        return `${day1} ${month1}, ${year1} (*)`;
     }
 }
 
