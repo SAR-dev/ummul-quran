@@ -2,7 +2,8 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { useQuery } from '@tanstack/react-query';
 import { ClassPlanListDataType, getClassPlans } from 'api/teacher';
-import { formatDateRange, formatTimeRange, formatTimestamp } from 'helpers/date';
+import { formatDateRange, formatTimeRange } from 'helpers/date';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { constants } from 'stores/constantStore';
 
@@ -14,11 +15,24 @@ const ClassList = () => {
         queryFn: () => getClassPlans(),
     })
 
+    const todayClasses = useMemo(() => {
+        if (!classListData?.data?.data) return [];
+
+        const today = new Date();
+        const startOfDay = new Date(today.setHours(0, 0, 0, 0)).getTime();
+        const endOfDay = new Date(today.setHours(23, 59, 59, 999)).getTime();
+
+        return classListData.data.data.data.filter((classPlan) => {
+            const classTime = new Date(classPlan.start_at).getTime();
+            return classTime >= startOfDay && classTime <= endOfDay;
+        });
+    }, [classListData]);
+
     return (
         <div className="p-8 bg-base-200 card border border-base-300 flex flex-col gap-5">
 
             <div className="flex justify-between">
-                <div className="text-xl font-semibold">You have 5 classes today</div>
+                <div className="text-xl font-semibold">You have {todayClasses.length} classes today</div>
                 <div className="flex gap-3">
                     <button className="btn btn-sm bg-base-100">
                         Schedule a class
@@ -60,7 +74,7 @@ const ClassList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {classListData.data?.data.data.map((class_plan, i) => (
+                        {todayClasses.map((class_plan, i) => (
                             <tr className="bg-base-100 border-b border-base-300 hover:bg-info/20 duration-200 cursor-pointer" onClick={() => navigate("/students/1")} key={i}>
                                 <th className="px-6 py-4">{(i + 1).toString().padStart(2, "0")}</th>
                                 <th scope="row" className="px-6 py-4">
@@ -79,6 +93,13 @@ const ClassList = () => {
                     </tbody>
                 </table>
             </div>
+
+            {(((classListData.data?.data.total_result ?? 0) - todayClasses.length) > 0) && (
+                <div className="bg-base-100 px-6 py-3 card flex-row gap-2 items-center">
+                    <InformationCircleIcon className="h-5 w-5" />
+                    You have a {(classListData.data?.data.total_result ?? 0) - todayClasses.length} classes planned after today
+                </div>
+            )}
         </div>
     )
 }
