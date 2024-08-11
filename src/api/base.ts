@@ -8,7 +8,7 @@ api.interceptors.request.use(
     (config) => {
         const jwt = localStorage.getItem(constants.JWT_AUTH_KEY);
         config.baseURL = import.meta.env.VITE_API_URL;
-        config.headers["Utc"] = getUTCHoursOffset()
+        config.headers["Utc-Offset"] = getUTCHoursOffset()
         if (jwt) {
             const parsed = JSON.parse(jwt);
             if (parsed.state.token) {

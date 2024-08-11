@@ -1,3 +1,4 @@
+import { PackageType } from "./package";
 import { UserType } from "./user";
 
 export interface TeacherAddType {
@@ -52,4 +53,29 @@ export interface ClassPlanCreateType {
     topic: string;
     description: string;
     memo: string;
+}
+
+export interface ClassPlanListType {
+    data: ClassPlanType[],
+    page_no: number,
+    page_size: number,
+    has_prev: boolean,
+    has_next: boolean,
+    total_result: number,
+    total_pages: number
+}
+
+export interface ClassPlanType {
+    id: number;
+    teachers_id: number;
+    students_id: number;
+    start_at: Date;
+    finish_at: Date;
+    topic: string;
+    description: string;
+    memo: string;
+    completed: boolean;
+    student: UserType;
+    teacher: UserType;
+    pack: PackageType;
 }

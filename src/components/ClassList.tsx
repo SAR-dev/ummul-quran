@@ -1,9 +1,18 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { PlusIcon } from '@heroicons/react/24/solid';
+import { useQuery } from '@tanstack/react-query';
+import { ClassPlanListDataType, getClassPlans } from 'api/teacher';
+import { formatDateRange, formatTimeRange, formatTimestamp } from 'helpers/date';
 import { useNavigate } from 'react-router-dom';
+import { constants } from 'stores/constantStore';
 
 const ClassList = () => {
     const navigate = useNavigate();
+
+    const classListData = useQuery<ClassPlanListDataType, Error>({
+        queryKey: [constants.QUERY_KEYS.CLASS_LIST],
+        queryFn: () => getClassPlans(),
+    })
 
     return (
         <div className="p-8 bg-base-200 card border border-base-300 flex flex-col gap-5">
@@ -43,26 +52,28 @@ const ClassList = () => {
                                 Student
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Country
+                                Package
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Last Note
+                                Location
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {[...Array(3)].map((_, i) => (
+                        {classListData.data?.data.data.map((class_plan, i) => (
                             <tr className="bg-base-100 border-b border-base-300 hover:bg-info/20 duration-200 cursor-pointer" onClick={() => navigate("/students/1")} key={i}>
                                 <th className="px-6 py-4">{(i + 1).toString().padStart(2, "0")}</th>
                                 <th scope="row" className="px-6 py-4">
-                                    12 July, 2024
+                                    {formatDateRange(class_plan.start_at, class_plan.finish_at)}
                                 </th>
-                                <th className="px-6 py-4">0800 - 0900</th>
-                                <td className="px-6 py-4">Sayed Ar Rafi</td>
-                                <td className="px-6 py-4">Japan</td>
+                                <th className="px-6 py-4">
+                                    {formatTimeRange(class_plan.start_at, class_plan.finish_at)}
+                                </th>
+                                <td className="px-6 py-4">{class_plan.student.name}</td>
                                 <td className="px-6 py-4 w-64">
-                                    Simple notes
+                                    {class_plan.pack.minutes} Min
                                 </td>
+                                <td className="px-6 py-4">{class_plan.student.location}</td>
                             </tr>
                         ))}
                     </tbody>

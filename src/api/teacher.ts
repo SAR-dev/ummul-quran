@@ -1,4 +1,4 @@
-import { ClassPlanCreateType, StudentListType, TeacherAddType, TeacherListType } from "types/teacher";
+import { ClassPlanCreateType, ClassPlanListType, StudentListType, TeacherAddType, TeacherListType } from "types/teacher";
 import api from "./base";
 import { DataResponseType } from "types/base";
 
@@ -46,6 +46,22 @@ export const getStudentsByTeacher = (): Promise<StudentListDataType> => {
 export const createClassPlan = (data: ClassPlanCreateType): Promise<DataResponseType> => {
     return api
         .post("/teacher/class-plans", data)
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
+
+
+export interface ClassPlanListDataType {
+    data: ClassPlanListType
+}
+
+export const getClassPlans = (): Promise<ClassPlanListDataType> => {
+    return api
+        .get("/teacher/class-plans")
         .then((res) => {
             return { data: res.data };
         })
