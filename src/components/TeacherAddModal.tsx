@@ -65,8 +65,8 @@ const TeacherAddModal = ({
                     <input type="text" className='grow' placeholder='John Doe' value={name} onChange={e => setName(e.target.value)} />
                 </label>
                 <label className="input input-bordered flex items-center gap-2">
-                    <div className="font-semibold opacity-75 w-20">WhatsApp</div>
-                    <input type="text" className='grow' placeholder='+880*********' value={whatsAppNo} onChange={e => setWhatsAppNo(e.target.value)} />
+                    <div className="font-semibold opacity-75 w-20">Phone</div>
+                    <input type="text" className='grow' placeholder='880*********' value={whatsAppNo} onChange={e => setWhatsAppNo(e.target.value)} />
                 </label>
                 <button className="btn btn-primary" onClick={handleSubmit} disabled={isLoading}>Submit</button>
             </div>

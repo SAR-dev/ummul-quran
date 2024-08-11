@@ -27,7 +27,7 @@ const PackageAddModal = ({
     const handleSubmit = () => {
         setIsLoading(true)
         const payload: PackageAddType = {
-            name, minutes, description, default_price: price
+            name, minutes, description, price_bdt: price
         }
         addPackage(payload)
             .then(res => {

@@ -3,12 +3,12 @@ export interface PackageType {
     name: string;
     minutes: number;
     description: string;
-    default_price: number;
+    price_bdt: number;
 }
 
 export interface PackageAddType {
     name: string;
     minutes: number;
     description: string;
-    default_price: number;
+    price_bdt: number;
 }

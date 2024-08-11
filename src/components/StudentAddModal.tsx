@@ -37,7 +37,7 @@ const StudentAddModal = ({
 
     const handlePackageChange = (id: string) => {
         setPackageId(Number(id))
-        setPrice(packageListData.data?.data.find(e => e.id == Number(id))?.default_price ?? 0)
+        setPrice(packageListData.data?.data.find(e => e.id == Number(id))?.price_bdt ?? 0)
     }
 
     const handleSubmit = () => {
@@ -89,8 +89,8 @@ const StudentAddModal = ({
                     <input type="text" className='grow' placeholder='John Doe' value={name} onChange={e => setName(e.target.value)} />
                 </label>
                 <label className="input input-bordered flex items-center gap-2">
-                    <div className="font-semibold opacity-75 w-20">WhatsApp</div>
-                    <input type="text" className='grow' placeholder='+880*********' value={whatsAppNo} onChange={e => setWhatsAppNo(e.target.value)} />
+                    <div className="font-semibold opacity-75 w-20">Phone</div>
+                    <input type="text" className='grow' placeholder='880*********' value={whatsAppNo} onChange={e => setWhatsAppNo(e.target.value)} />
                 </label>
                 <label className="input input-bordered flex items-center gap-2">
                     <div className="font-semibold opacity-75 w-20">Class Link</div>

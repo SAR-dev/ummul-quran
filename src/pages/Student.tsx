@@ -1,6 +1,5 @@
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { ArrowUpIcon, PlayIcon, StopIcon } from '@heroicons/react/24/solid'
-import ClassCreate from 'components/ClassCreate'
 import NavLayout from 'layouts/NavLayout'
 
 const Student = () => {
@@ -10,7 +9,6 @@ const Student = () => {
         <div className="col-span-3">
           <div className="p-16 w-full grid grid-cols-1 gap-16">
             <div className="card p-5 border border-base-300 bg-base-200">
-              <ClassCreate />
             </div>
             <div className="flex flex-col gap-3">
               <div className="font-semibold text-xl">Upcoming Class</div>

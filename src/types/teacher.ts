@@ -44,3 +44,12 @@ export interface StudentListType {
     class_link: string;
     teacher: UserType;
 }
+
+export interface ClassPlanCreateType {
+    students_id: number;
+    start_at: string;
+    finish_at: string;
+    topic: string;
+    description: string;
+    memo: string;
+}
