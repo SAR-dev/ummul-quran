@@ -1,4 +1,5 @@
 import { PlayIcon, StopIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { ClassPlanDataType, finishClassPlanById, getClassPlanById, startClassPlanById } from 'api/teacher';
 import { useNotification } from 'contexts/Notification';
@@ -26,10 +27,10 @@ const ManageClass = () => {
 
     const minutes = useMemo(() => {
         if (!classData.data || !classData.data.data.started) return 0;
-        if(classData.data.data.finished) {
-            return  Math. ceil(((new Date(classData.data.data.finish_at)).getTime() - (new Date(classData.data.data.start_at)).getTime()) / 60000)
+        if (classData.data.data.finished) {
+            return Math.ceil(((new Date(classData.data.data.finish_at)).getTime() - (new Date(classData.data.data.start_at)).getTime()) / 60000)
         }
-        return  Math. ceil((time.getTime() - (new Date(classData.data.data.start_at)).getTime()) / 60000)
+        return Math.ceil((time.getTime() - (new Date(classData.data.data.start_at)).getTime()) / 60000)
     }, [time, classData]);
 
     useEffect(() => {
@@ -113,6 +114,17 @@ const ManageClass = () => {
                                 <div className="text-5xl">{minutes}</div>
                                 <div>MINUTES</div>
                             </div>
+                        </div>
+                        <div className="card flex-row items-center gap-3 border border-base-300 p-2">
+                            <img className='h-12 card w-12 object-cover' src={classData.data.data.student.avatar.thumbnail_url} alt="" />
+                            <div className="flex flex-col">
+                                <div className='font-medium'>{classData.data.data.student.name}</div>
+                                <div>{classData.data.data.student.whatsapp_no}</div>
+                            </div>
+                            <Link to={`https://wa.me/${classData.data.data.student.whatsapp_no}`} target='_blank' className="btn ml-auto btn-sm btn-icon">
+                                Open WhatsApp
+                                <ArrowRightIcon className='h-4 w-4' />
+                            </Link>
                         </div>
                         {!classData.data.data.started && (
                             <button className="btn btn-icon" disabled={isLoading} onClick={startClass}>

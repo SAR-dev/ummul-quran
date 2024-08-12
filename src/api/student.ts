@@ -18,7 +18,7 @@ export interface ClassPlanListByMonthDataType {
     data: ClassPlanListByMonthType[]
 }
 
-export const getCompletedClassPlansByMonth = (id: number): Promise<ClassPlanListByMonthDataType> => {
+export const getStudentCompletedClassPlansByMonth = (id: number): Promise<ClassPlanListByMonthDataType> => {
     return api
         .get(`/students/${id}/class-plans`)
         .then((res) => {
@@ -33,7 +33,7 @@ export interface UpcomingClassPlanListDataType {
     data: ClassPlanType[]
 }
 
-export const getUpcomingClassPlansByStudent = (id: number): Promise<UpcomingClassPlanListDataType> => {
+export const getUpcomingClassPlansByStudentId = (id: number): Promise<UpcomingClassPlanListDataType> => {
     return api
         .get(`/students/${id}/class-plans/upcoming`)
         .then((res) => {

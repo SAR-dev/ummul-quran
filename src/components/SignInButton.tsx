@@ -8,11 +8,13 @@ import { useAuthStore } from 'stores/authStore';
 import { NotificationType } from 'types/notification';
 import DropdownSelect from 'packages/DropdownSelect';
 import SignInModal from './SignInModal';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignInButton = () => {
+    const navigate = useNavigate()
     const queryClient = useQueryClient()
     const notification = useNotification()
-    const { isLoggedIn, setToken } = useAuthStore()
+    const { isLoggedIn, setToken, getLoggedInStudentsId, getLoggedInUserRole, getLoggedInTeachersId } = useAuthStore()
     const { setIsOpenSignIn } = useSignInModalStore();
 
     const [isLoading, setIsLoading] = useState(false)
@@ -81,6 +83,15 @@ const SignInButton = () => {
         })
     }
 
+    const navigateToProfileUrl = () => {
+        if(getLoggedInUserRole() == "TEACHER"){
+            navigate(`/teachers/${getLoggedInTeachersId()}`)
+        }
+        if(getLoggedInUserRole() == "STUDENT"){
+            navigate(`/students/${getLoggedInStudentsId()}`)
+        }
+    }
+
     if (isLoggedIn()) {
         return (
             <div>
@@ -92,7 +103,7 @@ const SignInButton = () => {
                         </button>
                     }
                     options={[
-                        { text: user.data?.data.name ?? "User Profile", value: user.data?.data.name ?? "", icon: <div className='mr-1'>😎</div> },
+                        { text: user.data?.data.name ?? "User Profile", value: user.data?.data.name ?? "", handleClick: navigateToProfileUrl, icon: <div className='mr-1'>😎</div> },
                         { text: "Sign Out", value: "sign-out", handleClick: handleSignOut, icon: <div className='mr-1'>👋</div> },
                     ]}
                 />

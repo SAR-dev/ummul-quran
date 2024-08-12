@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { ClassPlanListByMonthDataType, getCompletedClassPlansByMonth, getStudentById, getUpcomingClassPlansByStudent, StudentDataType, UpcomingClassPlanListDataType } from 'api/student';
+import { ClassPlanListByMonthDataType, getStudentCompletedClassPlansByMonth, getStudentById, getUpcomingClassPlansByStudentId, StudentDataType, UpcomingClassPlanListDataType } from 'api/student';
 import ClassTable from 'components/ClassTable';
 import StudentInfo from 'components/StudentInfo';
-import NavLayout from 'layouts/NavLayout'
+import AuthNavLayout from 'layouts/AuthNavLayout';
 import { useParams } from 'react-router-dom';
 import { constants } from 'stores/constantStore';
 
@@ -17,18 +17,18 @@ const Student = () => {
 
   const upcomingClassListData = useQuery<UpcomingClassPlanListDataType, Error>({
     queryKey: [constants.QUERY_KEYS.STUDENT_UPCOMING_CLASS_LIST, { id: Number(id) }],
-    queryFn: () => getUpcomingClassPlansByStudent(Number(id)),
+    queryFn: () => getUpcomingClassPlansByStudentId(Number(id)),
     enabled: Number(id) > 0
   })
 
   const completedClassListData = useQuery<ClassPlanListByMonthDataType, Error>({
     queryKey: [constants.QUERY_KEYS.STUDENT_CLASS_LIST_BY_DATE, { id: Number(id) }],
-    queryFn: () => getCompletedClassPlansByMonth(Number(id)),
+    queryFn: () => getStudentCompletedClassPlansByMonth(Number(id)),
     enabled: Number(id) > 0
   })
 
   return (
-    <NavLayout>
+    <AuthNavLayout>
       <div className="grid grid-cols-4 gap-10 p-10 w-full">
         <div className="col-span-3">
           <div className="w-full grid grid-cols-1 gap-16">
@@ -53,7 +53,7 @@ const Student = () => {
           )}
         </div>
       </div>
-    </NavLayout>
+    </AuthNavLayout>
   )
 }
 

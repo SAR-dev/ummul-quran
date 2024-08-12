@@ -1,6 +1,8 @@
 import { ClassPlanCreateType, ClassPlanListType, ClassPlanType, StudentListType, TeacherAddType, TeacherListType } from "types/teacher";
 import api from "./base";
 import { DataResponseType } from "types/base";
+import { StudentListDataType } from 'api/teacher';
+import { ClassPlanListByMonthDataType } from "./student";
 
 export const addTeacher = (data: TeacherAddType): Promise<DataResponseType> => {
     return api
@@ -114,6 +116,54 @@ export const startClassPlanById = (id: number): Promise<DataResponseType> => {
 export const finishClassPlanById = (id: number): Promise<DataResponseType> => {
     return api
         .post(`/teacher/class-plans/${id}/finish`, null)
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
+
+export interface TeacherDataType {
+    data: TeacherListType
+}
+
+export const getTeacherById = (id: number): Promise<TeacherDataType> => {
+    return api
+        .get(`/teachers/${id}`)
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
+
+export const getStudentsByTeacherId = (id: number): Promise<StudentListDataType> => {
+    return api
+        .get(`/teachers/${id}/students`)
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
+
+export const getUpcomingClassPlansByTeacherId = (id: number): Promise<UpcomingClassPlanListDataType> => {
+    return api
+        .get(`/teachers/${id}/class-plans/upcoming`)
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
+
+export const getTeacherCompletedClassPlansByMonth = (id: number): Promise<ClassPlanListByMonthDataType> => {
+    return api
+        .get(`/teachers/${id}/class-plans`)
         .then((res) => {
             return { data: res.data };
         })
