@@ -8,8 +8,6 @@ const Student = () => {
       <div className="grid grid-cols-4 w-full">
         <div className="col-span-3">
           <div className="p-16 w-full grid grid-cols-1 gap-16">
-            <div className="card p-5 border border-base-300 bg-base-200">
-            </div>
             <div className="flex flex-col gap-3">
               <div className="font-semibold text-xl">Upcoming Class</div>
               <div className="relative overflow-x-auto">
@@ -65,7 +63,7 @@ const Student = () => {
 
             {[...Array(5)].map((_, i) => (
               <div className="flex flex-col gap-3" key={i}>
-                <div className="font-semibold text-xl">Jun 2024</div>
+                <div className="font-semibold text-xl">This Month</div>
                 <div className="relative overflow-x-auto">
                   <table className="w-full text-sm text-left table-auto">
                     <thead className="text-xs uppercase bg-base-100 border-b border-base-300">
@@ -120,7 +118,7 @@ const Student = () => {
           </div>
         </div>
         <div className="col-span-1 py-16">
-          <div className="sticky top-0 card rounded-r-none border border-base-300 p-5">
+          {/* <div className="sticky top-0 card rounded-r-none border border-base-300 p-5">
             <div className="h-32 w-full flex flex-col gap-5 items-start">
               <img className='h-32 card w-32 object-cover' src="https://avatar.iran.liara.run/public/38" alt="" />
             </div>
@@ -152,7 +150,7 @@ const Student = () => {
                     </tr>
                 </tbody>
               </table>
-          </div>
+          </div> */}
         </div>
       </div>
     </NavLayout>

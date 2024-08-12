@@ -61,7 +61,7 @@ export interface ClassPlanListDataType {
 
 export const getCompletedClassPlans = (): Promise<ClassPlanListDataType> => {
     return api
-        .get("/teacher/class-plans?completed=true")
+        .get("/teacher/class-plans?finished=true")
         .then((res) => {
             return { data: res.data };
         })
@@ -92,6 +92,28 @@ export interface ClassPlanDataType {
 export const getClassPlanById = (id: number): Promise<ClassPlanDataType> => {
     return api
         .get(`/teacher/class-plans/${id}`)
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
+
+export const startClassPlanById = (id: number): Promise<DataResponseType> => {
+    return api
+        .post(`/teacher/class-plans/${id}/start`, null)
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
+
+export const finishClassPlanById = (id: number): Promise<DataResponseType> => {
+    return api
+        .post(`/teacher/class-plans/${id}/finish`, null)
         .then((res) => {
             return { data: res.data };
         })

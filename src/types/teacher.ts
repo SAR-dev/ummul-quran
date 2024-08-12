@@ -77,7 +77,6 @@ export interface ClassPlanType {
     description: string;
     memo: string;
     class_link: string;
-    completed: boolean;
     started: boolean;
     finished: boolean;
     student: UserType;

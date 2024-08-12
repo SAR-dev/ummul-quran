@@ -5,7 +5,7 @@ import { constants } from "stores/constantStore"
 
 const ClassHistory = () => {
     const classListData = useQuery<ClassPlanListDataType, Error>({
-        queryKey: [constants.QUERY_KEYS.CLASS_LIST, { completed: true }],
+        queryKey: [constants.QUERY_KEYS.CLASS_LIST, { finished: true }],
         queryFn: () => getCompletedClassPlans()
     })
 
