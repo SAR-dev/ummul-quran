@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { ClassPlanListByMonthDataType, getCompletedClassPlansByMonth, getUpcomingClassPlansByStudent, UpcomingClassPlanListDataType } from 'api/student';
 import ClassTable from 'components/ClassTable';
+import StudentInfo from 'components/StudentInfo';
 import NavLayout from 'layouts/NavLayout'
 import { useParams } from 'react-router-dom';
 import { constants } from 'stores/constantStore';
@@ -22,9 +23,9 @@ const Student = () => {
 
   return (
     <NavLayout>
-      <div className="grid grid-cols-4 w-full">
+      <div className="grid grid-cols-4 gap-10 p-10 w-full">
         <div className="col-span-3">
-          <div className="p-16 w-full grid grid-cols-1 gap-16">
+          <div className="w-full grid grid-cols-1 gap-16">
             <div className="flex flex-col gap-3">
               <div className="font-semibold text-xl">Upcoming Class</div>
               {upcomingClassListData.data && upcomingClassListData.data.data.length > 0 && (
@@ -39,6 +40,9 @@ const Student = () => {
               </div>
             ))}
           </div>
+        </div>
+        <div className="col-span-1">
+          <StudentInfo />
         </div>
       </div>
     </NavLayout>
