@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { createClassPlan, getStudentsByTeacher, StudentListDataType } from 'api/teacher'
 import { useNotification } from 'contexts/Notification';
 import { getDateTimeWithOffset, getTodayDateInYYYYMMDD } from 'helpers/date';
@@ -13,6 +13,7 @@ import { ClassPlanCreateType } from 'types/teacher'
 const CreateClass = () => {
   const notification = useNotification()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const [studentsId, setStudentsId] = useState<number | undefined>(undefined)
   const [startDate, setStartDate] = useState<string>(getTodayDateInYYYYMMDD())
@@ -75,6 +76,7 @@ const CreateClass = () => {
           message: "The class plan has been registered successfully.",
           status: NotificationType.SUCCESS
         })
+        queryClient.invalidateQueries({queryKey: [constants.QUERY_KEYS.CLASS_LIST]})
         navigate(-1)
       }
     })

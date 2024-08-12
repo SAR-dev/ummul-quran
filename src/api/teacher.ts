@@ -59,9 +59,9 @@ export interface ClassPlanListDataType {
     data: ClassPlanListType
 }
 
-export const getClassPlans = (): Promise<ClassPlanListDataType> => {
+export const getCompletedClassPlans = (): Promise<ClassPlanListDataType> => {
     return api
-        .get("/teacher/class-plans")
+        .get("/teacher/class-plans?completed=true")
         .then((res) => {
             return { data: res.data };
         })
@@ -77,6 +77,21 @@ export interface UpcomingClassPlanListDataType {
 export const getUpcomingClassPlans = (): Promise<UpcomingClassPlanListDataType> => {
     return api
         .get("/teacher/class-plans/upcoming")
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
+
+export interface ClassPlanDataType {
+    data: ClassPlanType
+}
+
+export const getClassPlanById = (id: number): Promise<ClassPlanDataType> => {
+    return api
+        .get(`/teacher/class-plans/${id}`)
         .then((res) => {
             return { data: res.data };
         })

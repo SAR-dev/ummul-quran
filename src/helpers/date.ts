@@ -87,6 +87,19 @@ export const formatDateRange = (date1: Date, date2: Date) => {
     }
 }
 
+export const formatDate = (date?: Date) => {
+    if(!date) return "";
+    const d = new Date(date);
+
+    // Extract components
+    const year = d.getFullYear();
+
+    const month = d.toLocaleString('en-US', { month: 'short' });
+
+    const day = String(d.getDate()).padStart(2, '0');
+
+    return `${day} ${month}, ${year}`;
+}
 
 export const formatTimeRange = (date1: Date, date2: Date) => {
     const d1 = new Date(date1);

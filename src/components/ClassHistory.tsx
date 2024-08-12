@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query"
-import { ClassPlanListDataType, getClassPlans } from "api/teacher"
+import { ClassPlanListDataType, getCompletedClassPlans } from "api/teacher"
 import { formatDateRange, formatTimeRange } from "helpers/date"
 import { constants } from "stores/constantStore"
 
 const ClassHistory = () => {
     const classListData = useQuery<ClassPlanListDataType, Error>({
-        queryKey: [constants.QUERY_KEYS.CLASS_LIST],
-        queryFn: () => getClassPlans()
+        queryKey: [constants.QUERY_KEYS.CLASS_LIST, { completed: true }],
+        queryFn: () => getCompletedClassPlans()
     })
 
     return (
@@ -31,9 +31,15 @@ const ClassHistory = () => {
                         </div>
                     </div>
                     <div className="text-sm mt-2">
-                        {formatDateRange(class_plan.start_at, class_plan.finish_at)} ({formatTimeRange(class_plan.start_at, class_plan.finish_at)})</div>
+                        {formatDateRange(class_plan.start_at, class_plan.finish_at)} ({formatTimeRange(class_plan.start_at, class_plan.finish_at)})
+                    </div>
                 </div>
             ))}
+            {classListData.data?.data.data.length == 0 && (
+                <div className="p-5">
+                    🚫 No class list yet
+                </div>
+            )}
         </div>
     )
 }

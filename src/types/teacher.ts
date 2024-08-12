@@ -44,6 +44,8 @@ export interface StudentListType {
     pack: Pack;
     class_link: string;
     teacher: UserType;
+    last_class?: Date;
+    next_class?: Date;
 }
 
 export interface ClassPlanCreateType {
@@ -75,6 +77,8 @@ export interface ClassPlanType {
     description: string;
     memo: string;
     completed: boolean;
+    started: boolean;
+    finished: boolean;
     student: UserType;
     teacher: UserType;
     pack: PackageType;
