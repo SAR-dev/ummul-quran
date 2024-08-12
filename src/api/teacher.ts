@@ -74,7 +74,7 @@ export interface UpcomingClassPlanListDataType {
     data: ClassPlanType[]
 }
 
-export const getUpcomingClassPlans = (): Promise<UpcomingClassPlanListDataType> => {
+export const getUpcomingClassPlansByTeacher = (): Promise<UpcomingClassPlanListDataType> => {
     return api
         .get("/teacher/class-plans/upcoming")
         .then((res) => {

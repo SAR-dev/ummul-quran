@@ -1,3 +1,5 @@
+import { ClassPlanType } from "./teacher";
+
 export interface StudentAddType {
     student: {
         email: string;
@@ -17,4 +19,10 @@ export interface StudentAddType {
         utc?: number;
         whatsapp_no?: string;
     }
+}
+
+export interface ClassPlanListByMonthType {
+    year: number;
+    month: number;
+    class_plans: ClassPlanType[]
 }

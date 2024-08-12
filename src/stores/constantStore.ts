@@ -13,7 +13,11 @@ export const constants = {
         PACKAGE_LIST: "package-list",
         STUDENT_LIST_BY_TEACHER: "student-list-by-teacher",
         CLASS_LIST: "class-list",
+        STUDENT_CLASS_LIST_BY_DATE: "student-class-list-by-date",
         CLASS_DETAILS: "class-details",
-        UPCOMING_CLASS_LIST: "upcoming-class-list",
-    }
+        TEACHER_UPCOMING_CLASS_LIST: "teacher-upcoming-class-list",
+        STUDENT_UPCOMING_CLASS_LIST: "student-upcoming-class-list",
+    },
+    MONTHS: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
 }
