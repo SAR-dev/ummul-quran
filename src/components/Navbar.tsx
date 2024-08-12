@@ -23,8 +23,6 @@ const Navbar = () => {
             <SquaresPlusIcon className='h-5 w-5' />
           </Link>
         )}
-        <Link to="" className="btn btn-ghost">Students</Link>
-        <Link to="" className="btn btn-ghost">History</Link>
         <ThemeSwitcher />
         <SignInButton />
       </div>
