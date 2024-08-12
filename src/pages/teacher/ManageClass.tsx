@@ -2,7 +2,7 @@ import { PlayIcon, StopIcon } from '@heroicons/react/24/outline';
 import { useQuery } from '@tanstack/react-query'
 import { ClassPlanDataType, getClassPlanById } from 'api/teacher';
 import TeacherNavLayout from 'layouts/TeacherNavLayout'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { constants } from 'stores/constantStore';
 
 const ManageClass = () => {
@@ -18,7 +18,7 @@ const ManageClass = () => {
         <TeacherNavLayout>
             {classData.data && (
                 <div className='w-full flex justify-center'>
-                    <div className="grid grid-cols-1 gap-5 py-10 px-5 max-w-[30rem] w-full">
+                    <div className="grid grid-cols-1 gap-10 py-10 px-5 max-w-[30rem] w-full">
                         <div className="flex flex-col gap-2 text-center">
                             <div>{classData.data.data.topic}</div>
                             <div className='opacity-75 text-sm'>{classData.data.data.description}</div>
@@ -29,16 +29,25 @@ const ManageClass = () => {
                                 <div>MINUTES</div>
                             </div>
                         </div>
-                        <div className="flex justify-between">
+                        {!classData.data.data.started && (
                             <button className="btn btn-icon">
                                 <PlayIcon className='h-5 w-5' />
                                 Start Class
                             </button>
-                            <button className="btn btn-icon">
-                                <StopIcon className='h-5 w-5' />
-                                Finish Class
-                            </button>
-                        </div>
+                        )}
+
+                        {classData.data.data.started && !classData.data.data.finished && (
+                            <div className="flex gap-5">
+                                <Link to={classData.data.data.class_link} target='_blank' className='btn btn-sm'>
+                                    Open Class Link
+                                </Link>
+                                <button className="btn btn-icon">
+                                    <StopIcon className='h-5 w-5' />
+                                    Finish Class
+                                </button>
+                            </div>
+                        )}
+
                         <div className="flex justify-between">
                             <div>Start At</div>
                             <div>Finish At</div>
