@@ -1,7 +1,7 @@
 import api from "./base";
 import { DataResponseType } from "types/base";
 import { ClassPlanListByMonthType, StudentAddType } from "types/student";
-import { ClassPlanType } from "types/teacher";
+import { ClassPlanType, StudentListType } from "types/teacher";
 
 export const addStudent = (data: StudentAddType): Promise<DataResponseType> => {
     return api
@@ -36,6 +36,21 @@ export interface UpcomingClassPlanListDataType {
 export const getUpcomingClassPlansByStudent = (id: number): Promise<UpcomingClassPlanListDataType> => {
     return api
         .get(`/students/${id}/class-plans/upcoming`)
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
+
+export interface StudentDataType {
+    data: StudentListType
+}
+
+export const getStudentById = (id: number): Promise<StudentDataType> => {
+    return api
+        .get(`/students/${id}`)
         .then((res) => {
             return { data: res.data };
         })

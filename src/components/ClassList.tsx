@@ -2,16 +2,13 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { useQuery } from '@tanstack/react-query';
 import { getUpcomingClassPlansByTeacher, UpcomingClassPlanListDataType } from 'api/teacher';
-import { formatDateRange, formatTimeRange } from 'helpers/date';
 import { useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { constants } from 'stores/constantStore';
 import Countdown from 'react-countdown';
 import ClassTable from './ClassTable';
 
 const ClassList = () => {
-    const navigate = useNavigate();
-
     const upcomingClassListData = useQuery<UpcomingClassPlanListDataType, Error>({
         queryKey: [constants.QUERY_KEYS.TEACHER_UPCOMING_CLASS_LIST],
         queryFn: () => getUpcomingClassPlansByTeacher()

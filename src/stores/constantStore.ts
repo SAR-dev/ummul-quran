@@ -17,6 +17,7 @@ export const constants = {
         CLASS_DETAILS: "class-details",
         TEACHER_UPCOMING_CLASS_LIST: "teacher-upcoming-class-list",
         STUDENT_UPCOMING_CLASS_LIST: "student-upcoming-class-list",
+        STUDENT_DETAILS: "student-details"
     },
     MONTHS: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 

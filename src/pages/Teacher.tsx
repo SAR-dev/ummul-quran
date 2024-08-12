@@ -6,7 +6,7 @@ import NavLayout from 'layouts/NavLayout'
 import { useParams } from 'react-router-dom';
 import { constants } from 'stores/constantStore';
 
-const Student = () => {
+const Teacher = () => {
   const { id = "" } = useParams();
 
   const studentData = useQuery<StudentDataType, Error>({
@@ -57,4 +57,4 @@ const Student = () => {
   )
 }
 
-export default Student
+export default Teacher
