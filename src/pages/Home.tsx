@@ -14,7 +14,10 @@ const Home = () => {
     if (!isLoggedIn()) {
         navigate("/sign-in")
     }
-}, [isLoggedIn, navigate])
+    if(isLoggedIn() && getLoggedInUserRole() == "ADMIN"){
+      navigate("/admin/")
+    }
+}, [isLoggedIn, getLoggedInUserRole])
 
   return (
     <>

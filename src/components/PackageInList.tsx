@@ -3,7 +3,7 @@ import { PackageType } from 'types/package'
 
 const PackageInList = ({ pac }: { pac: PackageType }) => {
     return (
-        <div className='card p-5 border border-base-300 flex-row justify-between group hover:shadow-md'>
+        <div className='card p-5 flex-row justify-between group hover:shadow-md bg-base-300 hover:bg-base-100'>
             <div className="flex flex-col">
                 <div className='font-semibold'>{pac.name}</div>
                 <div className="mt-1">{pac.description}</div>

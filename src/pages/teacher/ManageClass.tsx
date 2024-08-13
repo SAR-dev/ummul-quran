@@ -141,7 +141,7 @@ const ManageClass = () => {
                                         <div>{formatTimestamp(classData.data.data.finish_at)}</div>
                                     </div>
                                 </div>
-                                <button className="btn btn-info" onClick={() => navigate(-1)}>Complete</button>
+                                <button className="btn btn-info" onClick={() => navigate(-1)}>Done</button>
                             </>
                         )}
                     </div>

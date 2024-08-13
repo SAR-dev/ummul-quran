@@ -1,15 +1,14 @@
 import { ArrowDownIcon, ArrowUpIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { PlusIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { TeacherListType } from 'types/teacher'
-import StudentAddModal from './StudentAddModal'
 
 const TeacherInList = ({ teacher }: { teacher: TeacherListType }) => {
-    const [addStudentModal, setAddStudentModal] = useState(false)
     const [expand, setExpand] = useState(false)
 
     return (
-        <div className='card p-5 border border-base-300 group hover:shadow-md hover:bg-base-200'>
+        <div className='card p-5 bg-base-300 group hover:shadow-md hover:bg-base-100'>
             <div className="flex flex-row justify-between">
                 <div className="flex gap-2 items-center">
                     <div className="h-10 w-10">
@@ -40,9 +39,9 @@ const TeacherInList = ({ teacher }: { teacher: TeacherListType }) => {
                         </button>
                     </div>
                     <div className="tooltip" data-tip="Add Student">
-                        <button className="btn btn-xs btn-square bg-base-100" onClick={() => setAddStudentModal(true)}>
+                        <Link to={`/admin/student/${teacher.teachers_id}/create`} className="btn btn-xs btn-square bg-base-100">
                             <PlusIcon className='h-3 w-3' />
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -77,7 +76,6 @@ const TeacherInList = ({ teacher }: { teacher: TeacherListType }) => {
                     </tbody>
                 </table>
             )}
-            <StudentAddModal teacher={teacher} isOpen={addStudentModal} setIsOpen={setAddStudentModal} />
         </div>
     )
 }

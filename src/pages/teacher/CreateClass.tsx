@@ -85,7 +85,7 @@ const CreateClass = () => {
   return (
     <TeacherNavLayout>
       <div className="px-16 py-10">
-        <div className='grid grid-cols-1 gap-5 max-w-md'>
+        <div className='grid grid-cols-2 gap-5 max-w-3xl'>
 
           <label className="form-control flex flex-col w-full">
             <div className="label">
@@ -109,6 +109,18 @@ const CreateClass = () => {
             <div className="text-sm opacity-50 mt-1">
               {studentListData.data?.data.find(e => e.students_id == studentsId)?.user.email ?? "No student selected yet"}
             </div>
+          </label>
+
+          <label className="form-control flex flex-col w-full">
+            <div className="label">
+              <span className="label-text">Class Topic</span>
+            </div>
+            <input
+              type="text"
+              className="input input-bordered"
+              value={topic}
+              onChange={e => setTopic(e.target.value)}
+            />
           </label>
 
           <label className="form-control flex flex-col w-full">
@@ -154,39 +166,27 @@ const CreateClass = () => {
             </div>
           </label>
 
-          <label className="form-control flex flex-col w-full">
-            <div className="label">
-              <span className="label-text">Class Topic</span>
-            </div>
-            <input
-              type="text"
-              className="input input-bordered"
-              value={topic}
-              onChange={e => setTopic(e.target.value)}
-            />
-          </label>
+          <div className="col-span-2">
+            <label className="form-control flex flex-col w-full">
+              <div className="label">
+                <span className="label-text">Class Details</span>
+              </div>
+              <textarea
+                className='textarea textarea-bordered'
+                rows={3}
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+              />
+            </label>
+          </div>
 
           <label className="form-control flex flex-col w-full">
-            <div className="label">
-              <span className="label-text">Class Details</span>
-            </div>
-            <textarea
-              className='textarea textarea-bordered'
-              rows={3}
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-            />
-          </label>
-
-          <label className="form-control flex flex-col w-full">
-            <div className="label">
-              <span className="label-text">Memo</span>
-            </div>
             <input
               type="text"
               className="input input-bordered"
               value={memo}
               onChange={e => setMemo(e.target.value)}
+              placeholder='Write a memo'
             />
           </label>
 

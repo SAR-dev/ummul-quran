@@ -63,7 +63,7 @@ const ClassList = () => {
             <div className="flex justify-between">
                 <div className="text-xl font-semibold">You have {todayClasses.length} classes today</div>
                 <div className="flex gap-3">
-                    <Link to="/teachers/create-class" className="btn btn-sm bg-base-100">
+                    <Link to="/teachers/class/create" className="btn btn-sm bg-base-100">
                         Schedule a class
                         <PlusIcon className="h-4 w-4" />
                     </Link>

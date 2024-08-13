@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Home from "pages/Home";
 import Student from "pages/Student";
 import SignIn from "pages/SignIn";
@@ -7,6 +7,8 @@ import CreateClass from "pages/teacher/CreateClass";
 import ManageClass from "pages/teacher/ManageClass";
 import Teacher from "pages/Teacher";
 import UpdateClass from "pages/teacher/UpdateClass";
+import AddTeacher from "pages/admin/AddTeacher";
+import AddStudent from "pages/admin/AddStudent";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +20,7 @@ const router = createBrowserRouter([
     element: <SignIn />,
   },
   {
-    path: "/teachers/create-class",
+    path: "/teachers/class/create",
     element: <CreateClass />,
   },
   {
@@ -39,11 +41,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <Navigate to="/admin/users" />,
+    element: <UserManagement />,
   },
   {
-    path: "/admin/users",
-    element: <UserManagement />,
+    path: "/admin/teacher/create",
+    element: <AddTeacher />,
+  },
+  {
+    path: "/admin/student/:teacherId/create",
+    element: <AddStudent />,
   },
 ]);
 
