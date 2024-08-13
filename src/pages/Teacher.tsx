@@ -40,23 +40,29 @@ const Teacher = () => {
       <div className="grid grid-cols-4 gap-10 p-10 w-full">
         <div className="col-span-3">
           <div className="w-full grid grid-cols-1 gap-16">
-          <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3">
               <div className="font-semibold text-xl">Students</div>
               {studentsData.data && studentsData.data.data.length > 0 && (
-                <StudentTable students={studentsData.data.data} />
+                <div className="border border-base-300 card overflow-hidden">
+                  <StudentTable students={studentsData.data.data} />
+                </div>
               )}
             </div>
             <div className="flex flex-col gap-3">
               <div className="font-semibold text-xl">Upcoming Class</div>
               {upcomingClassListData.data && upcomingClassListData.data.data.length > 0 && (
-                <ClassTable class_plans={upcomingClassListData.data?.data} />
+                <div className="border border-base-300 card overflow-hidden">
+                  <ClassTable class_plans={upcomingClassListData.data?.data} />
+                </div>
               )}
             </div>
 
             {completedClassListData.data?.data.map((class_plan_list, i) => (
               <div className="flex flex-col gap-3" key={i}>
                 <div className="font-semibold text-xl">{class_plan_list.year} {constants.MONTHS[class_plan_list.month - 1]}</div>
-                <ClassTable class_plans={class_plan_list.class_plans} />
+                <div className="border border-base-300 card overflow-hidden">
+                  <ClassTable class_plans={class_plan_list.class_plans} />
+                </div>
               </div>
             ))}
           </div>

@@ -1,4 +1,4 @@
-import { ArrowDownIcon, ArrowUpIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { ArrowDownIcon, ArrowUpIcon, PencilIcon } from '@heroicons/react/24/outline';
 import { PlusIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -29,14 +29,9 @@ const TeacherInList = ({ teacher }: { teacher: TeacherListType }) => {
                         </button>
                     </div>
                     <div className="tooltip" data-tip="Edit">
-                        <button className="btn btn-xs btn-square bg-base-100">
+                        <Link to={`/admin/teacher/${teacher.teachers_id}/update`} className="btn btn-xs btn-square bg-base-100">
                             <PencilIcon className='h-3 w-3' />
-                        </button>
-                    </div>
-                    <div className="tooltip" data-tip="Delete">
-                        <button className="btn btn-xs btn-square bg-base-100">
-                            <TrashIcon className='h-3 w-3' />
-                        </button>
+                        </Link>
                     </div>
                     <div className="tooltip" data-tip="Add Student">
                         <Link to={`/admin/student/${teacher.teachers_id}/create`} className="btn btn-xs btn-square bg-base-100">
@@ -58,6 +53,7 @@ const TeacherInList = ({ teacher }: { teacher: TeacherListType }) => {
                             <th scope="col" className="px-4 py-2">
                                 Minutes
                             </th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,6 +67,13 @@ const TeacherInList = ({ teacher }: { teacher: TeacherListType }) => {
                                 </th>
                                 <th className="px-4 py-2">{student.pack.name}</th>
                                 <td className="px-4 py-2">{student.pack.minutes} Min</td>
+                                <td className="p-2">
+                                    <div className="tooltip" data-tip="Edit">
+                                        <Link to={`/admin/student/${student.students_id}/update`} className='btn btn-xs btn-square'>
+                                            <PencilIcon className='h-3 w-3' />
+                                        </Link>
+                                    </div>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

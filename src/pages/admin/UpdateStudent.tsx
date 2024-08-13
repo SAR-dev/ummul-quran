@@ -1,23 +1,25 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNotification } from 'contexts/Notification';
 import { NotificationType } from 'types/notification';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { constants } from 'stores/constantStore';
 import { getPackages, PackageListDataType } from 'api/package';
 import { StudentAddType } from 'types/student';
-import { addStudent } from 'api/student';
+import { addStudent, getStudentById, StudentDataType } from 'api/student';
 import { parseErrorMessage, RawErrorMessageProps } from 'helpers/error';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import AdminNavLayout from 'layouts/AdminNavLayout';
-import { getTeachers, TeacherListDataType } from 'api/teacher';
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
+import { UserType } from 'types/user';
 
-const AddStudent = () => {
-  const { teacherId = "" } = useParams();
+const UpdateStudent = () => {
+  const { id = "" } = useParams();
   const notification = useNotification()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
+  const [teacherId, setTeacherId] = useState(0)
+  const [teacher, setTeacher] = useState<UserType | null>(null)
   const [email, setEmail] = useState("")
   const [name, setName] = useState("")
   const [location, setLocation] = useState("")
@@ -31,19 +33,37 @@ const AddStudent = () => {
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const teacherListData = useQuery<TeacherListDataType, Error>({
-    queryKey: [constants.QUERY_KEYS.TEACHER_LIST],
-    queryFn: () => getTeachers(),
-  })
-
   const packageListData = useQuery<PackageListDataType, Error>({
     queryKey: [constants.QUERY_KEYS.PACKAGE_LIST],
     queryFn: () => getPackages(),
   })
 
-  const teacher = useMemo(() => {
-    return teacherListData.data?.data.find(e => e.teachers_id == Number(teacherId))?.user
-  }, [teacherListData, teacherId]);
+  useEffect(() => {
+    getStudentById(Number(id))
+      .then(res => {
+        const data: StudentDataType = res;
+        setEmail(data.data.user.email)
+        setName(data.data.user.name ?? "")
+        setLocation(data.data.user.location ?? "")
+        setWhatsAppNo(data.data.user.whatsapp_no ?? "")
+        setClassLink(data.data.class_link)
+        setPrice(data.data.price_bdt)
+        setPackageId(data.data.pack.id)
+        setConatctNo(data.data.user.contact_no ?? "")
+        setGender(data.data.user.gender ?? "MALE")
+        setUtc(data.data.user.utc)
+        setTeacherId(data.data.teachers_id)
+        setTeacher(data.data.teacher)
+      })
+      .catch(err => {
+        notification.add({
+          title: "Error Occured",
+          message: parseErrorMessage(err as RawErrorMessageProps).message,
+          status: NotificationType.ERROR
+        })
+      })
+      .finally(() => setIsLoading(false))
+  }, [id])
 
   const handlePackageChange = (id: string) => {
     setPackageId(Number(id))
@@ -51,7 +71,7 @@ const AddStudent = () => {
   }
 
   const handleSubmit = () => {
-    if (packageId == null) return;
+    if (packageId == null || !teacher) return;
     setIsLoading(true)
     const payload: StudentAddType = {
       student: {
@@ -72,7 +92,7 @@ const AddStudent = () => {
       .then(() => {
         notification.add({
           title: "Student Registered",
-          message: "The student has been registered successfully. The student can login now.",
+          message: "The student has been updated successfully.",
           status: NotificationType.SUCCESS
         })
         queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.TEACHER_LIST] })
@@ -93,7 +113,7 @@ const AddStudent = () => {
       <div className="px-16 py-10">
         <div className="grid grid-cols-2 gap-5 max-w-3xl">
           <div className="col-span-2">
-          <div className="label">
+            <div className="label">
               <span className="label-text">Teacher</span>
             </div>
             <div className="card flex-row items-center gap-3 border border-base-300 p-2">
@@ -116,6 +136,7 @@ const AddStudent = () => {
               type="text"
               className="input input-bordered"
               value={email}
+              disabled
               onChange={e => setEmail(e.target.value)}
             />
           </label>
@@ -209,11 +230,11 @@ const AddStudent = () => {
             <div className="font-semibold opacity-75 w-20">UTC</div>
             <input type="text" className='grow' placeholder='+0900' value={utc} onChange={e => setUtc(Number(e.target.value))} />
           </label>
-          <button className="btn btn-primary" onClick={handleSubmit} disabled={isLoading}>Add Student</button>
+          <button className="btn btn-primary" onClick={handleSubmit} disabled={isLoading}>Update Student</button>
         </div>
       </div>
     </AdminNavLayout>
   )
 }
 
-export default AddStudent
+export default UpdateStudent

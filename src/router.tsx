@@ -9,11 +9,15 @@ import Teacher from "pages/Teacher";
 import UpdateClass from "pages/teacher/UpdateClass";
 import AddTeacher from "pages/admin/AddTeacher";
 import AddStudent from "pages/admin/AddStudent";
+import UpdateTeacher from "pages/admin/UpdateTeacher";
+import UpdateStudent from "pages/admin/UpdateStudent";
+import ErrorPage from "pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    errorElement: <ErrorPage />
   },
   {
     path: "/sign-in",
@@ -48,8 +52,16 @@ const router = createBrowserRouter([
     element: <AddTeacher />,
   },
   {
+    path: "/admin/teacher/:id/update",
+    element: <UpdateTeacher />,
+  },
+  {
     path: "/admin/student/:teacherId/create",
     element: <AddStudent />,
+  },
+  {
+    path: "/admin/student/:id/update",
+    element: <UpdateStudent />,
   },
 ]);
 

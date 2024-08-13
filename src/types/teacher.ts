@@ -40,9 +40,11 @@ export interface TeacherListType {
 
 export interface StudentListType {
     students_id: number;
+    teachers_id: number;
     user: UserType;
     pack: Pack;
     class_link: string;
+    price_bdt: number;
     teacher: UserType;
     last_class?: Date;
     next_class?: Date;

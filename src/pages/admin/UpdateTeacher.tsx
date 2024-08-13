@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TeacherAddType } from 'types/teacher';
-import { addTeacher } from 'api/teacher';
+import { addTeacher, getTeacherById, TeacherDataType } from 'api/teacher';
 import { useNotification } from 'contexts/Notification';
 import { NotificationType } from 'types/notification';
 import { useQueryClient } from '@tanstack/react-query';
 import { constants } from 'stores/constantStore';
 import { parseErrorMessage, RawErrorMessageProps } from 'helpers/error';
 import AdminNavLayout from 'layouts/AdminNavLayout';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const AddTeacher = () => {
+const UpdateTeacher = () => {
+    const { id = "" } = useParams();
+
     const notification = useNotification()
     const navigate = useNavigate()
     const queryClient = useQueryClient()
@@ -22,7 +24,30 @@ const AddTeacher = () => {
     const [gender, setGender] = useState("MALE")
     const [utc, setUtc] = useState(0)
 
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        getTeacherById(Number(id))
+            .then(res => {
+                const data: TeacherDataType = res;
+                setEmail(data.data.user.email)
+                setName(data.data.user.name ?? "")
+                setLocation(data.data.user.location ?? "")
+                setWhatsAppNo(data.data.user.whatsapp_no ?? "")
+                setConatctNo(data.data.user.contact_no ?? "")
+                setGender(data.data.user.gender ?? "MALE")
+                setUtc(data.data.user.utc)
+            })
+            .catch(err => {
+                notification.add({
+                    title: "Error Occured",
+                    message: parseErrorMessage(err as RawErrorMessageProps).message,
+                    status: NotificationType.ERROR
+                })
+            })
+            .finally(() => setIsLoading(false))
+    }, [id])
+
 
     const handleSubmit = () => {
         setIsLoading(true)
@@ -33,15 +58,14 @@ const AddTeacher = () => {
                 whatsapp_no: whatsAppNo,
                 contact_no: conatctNo,
                 gender,
-                location,
-                utc
+                location
             }
         }
         addTeacher(payload)
             .then(() => {
                 notification.add({
-                    title: "Teacher Registered",
-                    message: "The teacher has been registered successfully. The teacher can login now.",
+                    title: "Teacher Updated",
+                    message: "The teacher has been updated successfully.",
                     status: NotificationType.SUCCESS
                 })
                 queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.TEACHER_LIST] })
@@ -69,6 +93,7 @@ const AddTeacher = () => {
                             type="text"
                             className="input input-bordered"
                             value={email}
+                            disabled
                             onChange={e => setEmail(e.target.value)}
                         />
                     </label>
@@ -133,11 +158,11 @@ const AddTeacher = () => {
                         <div className="font-semibold opacity-75 w-20">UTC</div>
                         <input type="text" className='grow' placeholder='+0900' value={utc} onChange={e => setUtc(Number(e.target.value))} />
                     </label>
-                    <button className="btn btn-primary" onClick={handleSubmit} disabled={isLoading}>Add Teacher</button>
+                    <button className="btn btn-primary" onClick={handleSubmit} disabled={isLoading}>Update Teacher</button>
                 </div>
             </div>
         </AdminNavLayout>
     )
 }
 
-export default AddTeacher
+export default UpdateTeacher
