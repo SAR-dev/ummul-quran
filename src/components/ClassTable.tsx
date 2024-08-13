@@ -32,7 +32,7 @@ function ClassTable({ class_plans }: { class_plans: ClassPlanType[] }) {
                 </thead>
                 <tbody>
                     {class_plans.map((class_plan, i) => (
-                        <tr className="bg-base-100 border-b border-base-300 hover:bg-info/20 duration-200 cursor-pointer" onClick={() => navigate(`/teacher/class/${class_plan.id}`)} key={i}>
+                        <tr className="bg-base-100 border-b border-base-300 hover:bg-info/20 duration-200 cursor-pointer" onClick={() => navigate(`/teachers/class/${class_plan.id}`)} key={i}>
                             <th className="px-6 py-4">{(i + 1).toString().padStart(2, "0")}</th>
                             <th scope="row" className="px-6 py-4">
                                 {formatDateRange(class_plan.start_at, class_plan.finish_at)}

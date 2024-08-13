@@ -17,11 +17,11 @@ const router = createBrowserRouter([
     element: <SignIn />,
   },
   {
-    path: "/teacher/create-class",
+    path: "/teachers/create-class",
     element: <CreateClass />,
   },
   {
-    path: "/teacher/class/:id",
+    path: "/teachers/class/:id",
     element: <ManageClass />,
   },
   {

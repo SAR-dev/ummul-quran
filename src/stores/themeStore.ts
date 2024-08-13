@@ -4,11 +4,7 @@ import { constants } from './constantStore'
 
 export enum ThemeName {
     Light = "light",
-    Dark = "dark",
-    Corporate = "corporate",
-    Retro = "retro",
-    Cupcake = "cupcake",
-    Luxury = "luxury"
+    Dark = "dark"
 }
 
 type ThemeStore = {

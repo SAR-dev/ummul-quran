@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import SignInButton from './SignInButton'
 import { useAuthStore } from 'stores/authStore'
 import { SquaresPlusIcon } from '@heroicons/react/24/outline'
+import { MoonIcon, SunIcon } from '@heroicons/react/24/solid'
 
 const Navbar = () => {
   const { getLoggedInUserRole } = useAuthStore()
@@ -19,7 +20,7 @@ const Navbar = () => {
           <Link to="/admin" className="btn btn-ghost">Admin</Link>
         )}
         {getLoggedInUserRole() == "TEACHER" && (
-          <Link to="/teacher/create-class" className="btn btn-ghost">
+          <Link to="/teachers/create-class" className="btn btn-ghost">
             <SquaresPlusIcon className='h-5 w-5' />
           </Link>
         )}
