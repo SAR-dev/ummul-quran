@@ -57,6 +57,15 @@ export interface ClassPlanCreateType {
     memo: string;
 }
 
+export interface ClassPlanUpdateType {
+    start_at: string;
+    finish_at: string;
+    topic: string;
+    description: string;
+    memo: string;
+    id: number;
+}
+
 export interface ClassPlanListType {
     data: ClassPlanType[],
     page_no: number,

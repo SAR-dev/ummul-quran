@@ -3,6 +3,7 @@ import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { ClassPlanDataType, finishClassPlanById, getClassPlanById, startClassPlanById } from 'api/teacher';
 import { useNotification } from 'contexts/Notification';
+import { formatTimestamp } from 'helpers/date';
 import { parseErrorMessage, RawErrorMessageProps } from 'helpers/error';
 import TeacherNavLayout from 'layouts/TeacherNavLayout'
 import { useEffect, useMemo, useState } from 'react';
@@ -45,17 +46,9 @@ const ManageClass = () => {
     const startClass = () => {
         setIsLoading(true)
         startClassPlanById(Number(id))
-            .then(res => {
-                if (res.error) {
-                    notification.add({
-                        title: "Error Occured",
-                        message: parseErrorMessage(res.error as RawErrorMessageProps).message,
-                        status: NotificationType.ERROR
-                    })
-                } else {
-                    queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.CLASS_DETAILS] })
-                    window.open(classData.data?.data.class_link, '_blank', 'noopener,noreferrer');
-                }
+            .then(() => {
+                queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.CLASS_DETAILS] })
+                window.open(classData.data?.data.class_link, '_blank', 'noopener,noreferrer');
             })
             .catch(err => {
                 notification.add({
@@ -70,21 +63,13 @@ const ManageClass = () => {
     const finishClass = () => {
         setIsLoading(true)
         finishClassPlanById(Number(id))
-            .then(res => {
-                if (res.error) {
-                    notification.add({
-                        title: "Error Occured",
-                        message: parseErrorMessage(res.error as RawErrorMessageProps).message,
-                        status: NotificationType.ERROR
-                    })
-                } else {
-                    queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.CLASS_DETAILS] })
-                    notification.add({
-                        title: "Class Completed",
-                        message: "You can update the data of this class or start a new class now.",
-                        status: NotificationType.INFO
-                    })
-                }
+            .then(() => {
+                queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.CLASS_DETAILS] })
+                notification.add({
+                    title: "Class Completed",
+                    message: "You can update the data of this class or start a new class now.",
+                    status: NotificationType.INFO
+                })
             })
             .catch(err => {
                 notification.add({
@@ -101,9 +86,8 @@ const ManageClass = () => {
             {classData.data && (
                 <div className='w-full flex justify-center'>
                     <div className="grid grid-cols-1 gap-10 py-10 px-5 max-w-[30rem] w-full">
-                        <div className="join mx-auto -mb-5">
-                            <button className="btn btn-xs join-item">Edit</button>
-                            <button className="btn btn-xs join-item">Delete</button>
+                        <div className="mx-auto -mb-5">
+                            <Link to={`/teachers/class/${id}/update`} className="btn btn-xs">Edit</Link>
                         </div>
                         <div className="flex flex-col gap-2 text-center">
                             <div className='text-2xl'>{classData.data.data.topic}</div>
@@ -150,11 +134,11 @@ const ManageClass = () => {
                                 <div className="flex justify-between w-full">
                                     <div className='flex items-center gap-2'>
                                         <PlayIcon className='h-4 w-4' />
-                                        <div>21 July, 2024 12:30 PM</div>
+                                        <div>{formatTimestamp(classData.data.data.start_at)}</div>
                                     </div>
                                     <div className='flex items-center gap-2'>
                                         <StopIcon className='h-4 w-4' />
-                                        <div>21 July, 2024 12:30 PM</div>
+                                        <div>{formatTimestamp(classData.data.data.finish_at)}</div>
                                     </div>
                                 </div>
                                 <button className="btn btn-info" onClick={() => navigate(-1)}>Complete</button>

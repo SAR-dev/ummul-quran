@@ -9,7 +9,7 @@ export const sendMagicLink = ({ email }: { email: string }): Promise<DataRespons
             return { data: res.data };
         })
         .catch((err) => {
-            return { data: err, error: err || true };
+            throw err;
         });
 }
 
@@ -21,7 +21,7 @@ export const verifyToken = ({ magic_token }: { magic_token: string }): Promise<D
             return { data: res.data };
         })
         .catch((err) => {
-            return { data: err, error: err || true };
+            throw err
         });
 }
 
@@ -33,6 +33,6 @@ export const verifyKey = ({ email, magic_key }: { email: string, magic_key: stri
             return { data: res.data };
         })
         .catch((err) => {
-            return { data: err, error: err || true };
+            throw err
         });
 }

@@ -35,21 +35,20 @@ const SignInModal = () => {
         }
         setIsLoading(true);
         sendMagicLink({ email })
-            .then((res) => {
-                if (res.error) {
-                    notification.add({
-                        title: "Error Occured",
-                        message: "There was an error sending magic token to your email address. Please try again",
-                        status: NotificationType.ERROR
-                    })
-                } else {
-                    setIsMailSent(true)
-                    notification.add({
-                        title: "Mail Sent",
-                        message: "Magic token has been sent to your email address. Copy the token and paste it in the following screen.",
-                        status: NotificationType.SUCCESS
-                    })
-                }
+            .then(() => {
+                setIsMailSent(true)
+                notification.add({
+                    title: "Mail Sent",
+                    message: "Magic token has been sent to your email address. Copy the token and paste it in the following screen.",
+                    status: NotificationType.SUCCESS
+                })
+            })
+            .catch(() => {
+                notification.add({
+                    title: "Error Occured",
+                    message: "There was an error sending magic token to your email address. Please try again",
+                    status: NotificationType.ERROR
+                })
             })
             .finally(() => {
                 setIsLoading(false)
@@ -62,18 +61,17 @@ const SignInModal = () => {
 
         verifyKey({ email, magic_key: magicKeys.join("") })
             .then((res) => {
-                if (res.error) {
-                    notification.add({
-                        title: "Error Occured",
-                        message: "There was an error verifying magic token. Please use valid magic token.",
-                        status: NotificationType.ERROR
-                    })
-                } else {
-                    const data: AuthTokenType = res.data as AuthTokenType;
-                    setToken(data.access_token)
-                    setIsMailSent(true)
-                    toast.success("You have signed in successfully. Enjoy 😎👌🔥 !!!")
-                }
+                const data: AuthTokenType = res.data as AuthTokenType;
+                setToken(data.access_token)
+                setIsMailSent(true)
+                toast.success("You have signed in successfully. Enjoy 😎👌🔥 !!!")
+            })
+            .catch(() => {
+                notification.add({
+                    title: "Error Occured",
+                    message: "There was an error verifying magic token. Please use valid magic token.",
+                    status: NotificationType.ERROR
+                })
             })
             .finally(() => {
                 setIsLoading(false)
@@ -120,13 +118,13 @@ const SignInModal = () => {
         <Modal title="Sign In to continue" closeButton onClose={handleClose} isOpen={isOpenSignIn} setIsOpen={setIsOpenSignIn} maxWidth='25rem'>
             {!isMailSent && (
                 <div className="flex flex-col gap-3 pb-5">
-                    <input 
-                        type="text" 
-                        placeholder="Email Address" 
-                        className="input input-bordered w-full" 
-                        disabled={isLoading} 
-                        value={email} 
-                        onChange={e => setEmail(e.target.value)} 
+                    <input
+                        type="text"
+                        placeholder="Email Address"
+                        className="input input-bordered w-full"
+                        disabled={isLoading}
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                     />
                     <div className="text-xs text-base-content/75">
                         A confirmation link with magic token will be sent in your email

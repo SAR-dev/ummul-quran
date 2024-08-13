@@ -30,22 +30,21 @@ const PackageAddModal = ({
             name, minutes, description, price_bdt: price
         }
         addPackage(payload)
-            .then(res => {
-                if (res.error) {
-                    notification.add({
-                        title: "Error Occured",
-                        message: "There were some problem registering package. Please try again later.",
-                        status: NotificationType.ERROR
-                    })
-                } else {
-                    notification.add({
-                        title: "Package Registered",
-                        message: "The package has been registered successfully.",
-                        status: NotificationType.SUCCESS
-                    })
-                    queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.PACKAGE_LIST] })
-                    setIsOpen(false)
-                }
+            .then(() => {
+                notification.add({
+                    title: "Package Registered",
+                    message: "The package has been registered successfully.",
+                    status: NotificationType.SUCCESS
+                })
+                queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.PACKAGE_LIST] })
+                setIsOpen(false)
+            })
+            .catch(() => {
+                notification.add({
+                    title: "Error Occured",
+                    message: "There were some problem registering package. Please try again later.",
+                    status: NotificationType.ERROR
+                })
             })
             .finally(() => setIsLoading(false))
     }

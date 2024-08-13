@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { ClassPlanListDataType, getCompletedClassPlans } from "api/teacher"
 import { formatDateRange, formatTimeRange } from "helpers/date"
+import { Link } from "react-router-dom"
 import { constants } from "stores/constantStore"
 
 const ClassHistory = () => {
@@ -20,7 +21,7 @@ const ClassHistory = () => {
                 </button>
             </div>
             {classListData.data?.data.data.map((class_plan, i) => (
-                <div className="p-5" key={i}>
+                <Link to={`/teachers/class/${class_plan.id}`} className="p-5 hover:bg-base-200" key={i}>
                     <div className="flex items-center gap-2">
                         <div className="w-8">
                             <img className="h-8 w-8 card" src={class_plan.teacher.avatar.thumbnail_url} alt="" />
@@ -33,7 +34,7 @@ const ClassHistory = () => {
                     <div className="text-sm mt-2">
                         {formatDateRange(class_plan.start_at, class_plan.finish_at)} ({formatTimeRange(class_plan.start_at, class_plan.finish_at)})
                     </div>
-                </div>
+                </Link>
             ))}
             {classListData.data?.data.data.length == 0 && (
                 <div className="p-5">

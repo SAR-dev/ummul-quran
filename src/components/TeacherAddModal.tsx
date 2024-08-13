@@ -6,6 +6,7 @@ import { useNotification } from 'contexts/Notification';
 import { NotificationType } from 'types/notification';
 import { useQueryClient } from '@tanstack/react-query';
 import { constants } from 'stores/constantStore';
+import { parseErrorMessage, RawErrorMessageProps } from 'helpers/error';
 
 const TeacherAddModal = ({
     isOpen,
@@ -35,22 +36,21 @@ const TeacherAddModal = ({
             }
         }
         addTeacher(payload)
-            .then(res => {
-                if (res.error) {
-                    notification.add({
-                        title: "Error Occured",
-                        message: "There were some problem registering teacher. Please try again later.",
-                        status: NotificationType.ERROR
-                    })
-                } else {
-                    notification.add({
-                        title: "Teacher Registered",
-                        message: "The teacher has been registered successfully. The teacher can login now.",
-                        status: NotificationType.SUCCESS
-                    })
-                    queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.TEACHER_LIST] })
-                    setIsOpen(false)
-                }
+            .then(() => {
+                notification.add({
+                    title: "Teacher Registered",
+                    message: "The teacher has been registered successfully. The teacher can login now.",
+                    status: NotificationType.SUCCESS
+                })
+                queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.TEACHER_LIST] })
+                setIsOpen(false)
+            })
+            .catch(err => {
+                notification.add({
+                    title: "Error Occured",
+                    message: parseErrorMessage(err as RawErrorMessageProps).message,
+                    status: NotificationType.ERROR
+                })
             })
             .finally(() => setIsLoading(false))
     }

@@ -47,7 +47,7 @@ export const formatTimestamp = (timestamp: Date) => {
 
     // Extract components
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const month = date.toLocaleString('en-US', { month: 'short' });
     const day = String(date.getDate()).padStart(2, '0');
 
     let hours = date.getHours();
@@ -60,7 +60,7 @@ export const formatTimestamp = (timestamp: Date) => {
     const formattedHours = String(hours).padStart(2, '0');
 
     // Combine components into desired format
-    return `${year}-${month}-${day} ${formattedHours}:${minutes} ${ampm}`;
+    return `${day} ${month}, ${year} ${formattedHours}:${minutes} ${ampm}`;
 }
 
 export const formatDateRange = (date1: Date, date2: Date) => {
@@ -136,5 +136,22 @@ export const formatTimeRange = (date1: Date, date2: Date) => {
     } else {
         // Dates are different
         return `${time1}-${time2} (*)`;
+    }
+}
+
+export const timestampToDateTime = (timestamp: Date) => {
+    const date = new Date(timestamp);
+
+    // Extract components
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return {
+        date: `${year}-${month}-${day}`,
+        time: `${hours}:${minutes}`
     }
 }

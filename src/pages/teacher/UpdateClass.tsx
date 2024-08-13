@@ -1,16 +1,24 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { createClassPlan, getStudentsByTeacher, StudentListDataType } from 'api/teacher'
+import {
+  ClassPlanDataType,
+  deleteClassPlanById,
+  getClassPlanById,
+  getStudentsByTeacher,
+  StudentListDataType,
+  updateClassPlan,
+} from 'api/teacher';
 import { useNotification } from 'contexts/Notification';
-import { getDateTimeWithOffset, getTodayDateInYYYYMMDD } from 'helpers/date';
+import { getDateTimeWithOffset, getTodayDateInYYYYMMDD, timestampToDateTime } from 'helpers/date';
 import { parseErrorMessage, RawErrorMessageProps } from 'helpers/error';
 import TeacherNavLayout from 'layouts/TeacherNavLayout'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
 import { constants } from 'stores/constantStore'
 import { NotificationType } from 'types/notification';
-import { ClassPlanCreateType } from 'types/teacher'
+import { ClassPlanUpdateType } from 'types/teacher';
 
-const CreateClass = () => {
+const UpdateClass = () => {
+  const { id = "" } = useParams();
   const notification = useNotification()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -24,7 +32,31 @@ const CreateClass = () => {
   const [description, setDescription] = useState("")
   const [memo, setMemo] = useState("")
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    getClassPlanById(Number(id))
+      .then(res => {
+        const data:ClassPlanDataType = res;
+        setStudentsId(data.data.students_id)
+        setStartDate(timestampToDateTime(data.data.start_at).date)
+        setStartTime(timestampToDateTime(data.data.start_at).time)
+        setEndDate(timestampToDateTime(data.data.finish_at).date)
+        setEndTime(timestampToDateTime(data.data.finish_at).time)
+        setTopic(data.data.topic)
+        setDescription(data.data.description)
+        setMemo(data.data.memo)
+      })
+      .catch(err => {
+        notification.add({
+          title: "Error Occured",
+          message: parseErrorMessage(err as RawErrorMessageProps).message,
+          status: NotificationType.ERROR
+        })
+      })
+      .finally(() => setIsLoading(false))
+  }, [id])
+
 
   const studentListData = useQuery<StudentListDataType, Error>({
     queryKey: [constants.QUERY_KEYS.STUDENT_LIST_BY_TEACHER],
@@ -54,19 +86,19 @@ const CreateClass = () => {
 
   const handleSubmit = () => {
     if (!studentsId) return;
-    const payload: ClassPlanCreateType = {
-      students_id: studentsId,
+    const payload: ClassPlanUpdateType = {
       start_at: getDateTimeWithOffset({ date: startDate, time: startTime }),
       finish_at: getDateTimeWithOffset({ date: endDate, time: endTime }),
       topic,
       description,
-      memo
+      memo,
+      id: Number(id)
     }
     setIsLoading(true)
-    createClassPlan(payload).then(() => {
+    updateClassPlan(payload).then(() => {
       notification.add({
-        title: "Class Registered",
-        message: "The class plan has been registered successfully.",
+        title: "Class Updated",
+        message: "The class plan has been updated successfully.",
         status: NotificationType.SUCCESS
       })
       queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.CLASS_LIST] })
@@ -82,6 +114,41 @@ const CreateClass = () => {
       .finally(() => setIsLoading(false))
   }
 
+  const deleteClassPlan = () => {
+    setIsLoading(true)
+    deleteClassPlanById(Number(id)).then(() => {
+      notification.add({
+        title: "Class Deleted",
+        message: "The class plan has been deleted successfully.",
+        status: NotificationType.SUCCESS
+      })
+      queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.CLASS_LIST] })
+      navigate("/")
+    })
+      .catch(err => {
+        notification.add({
+          title: "Error Occured",
+          message: parseErrorMessage(err as RawErrorMessageProps).message,
+          status: NotificationType.ERROR
+        })
+      })
+      .finally(() => setIsLoading(false))
+  }
+
+  const handleDelete = () => {
+    notification.add({
+        title: "Confirmation Required",
+        message: "Are you sure you want to delete this class plan ? If you delete it you can not recover later.",
+        status: NotificationType.INFO,
+        body: (
+            <div className='flex gap-3 justify-center w-full'>
+                <button className="btn btn-error" onClick={deleteClassPlan}>Yes, I am Sure</button>
+                <button className="btn btn-success" onClick={() => notification.remove()}>No, I will Stay</button>
+            </div>
+        )
+    })
+}
+
   return (
     <TeacherNavLayout>
       <div className="px-16 py-10">
@@ -95,6 +162,7 @@ const CreateClass = () => {
               className="select select-bordered w-full"
               value={studentsId}
               onChange={e => selectStudentById(e.target.value)}
+              disabled
             >
               <option disabled selected>Choose student</option>
               {studentListData.data?.data.map((c, i) => (
@@ -195,7 +263,14 @@ const CreateClass = () => {
             onClick={handleSubmit}
             disabled={isLoading}
           >
-            Create Class Plan
+            Update Class Plan
+          </button>
+          <button
+            className="btn btn-error"
+            onClick={handleDelete}
+            disabled={isLoading}
+          >
+            Delete Class Plan
           </button>
 
         </div>
@@ -204,4 +279,4 @@ const CreateClass = () => {
   )
 }
 
-export default CreateClass
+export default UpdateClass

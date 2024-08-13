@@ -8,6 +8,7 @@ import { constants } from 'stores/constantStore';
 import { getPackages, PackageListDataType } from 'api/package';
 import { StudentAddType } from 'types/student';
 import { addStudent } from 'api/student';
+import { parseErrorMessage, RawErrorMessageProps } from 'helpers/error';
 
 const StudentAddModal = ({
     teacher,
@@ -59,22 +60,21 @@ const StudentAddModal = ({
             }
         }
         addStudent(payload)
-            .then(res => {
-                if (res.error) {
-                    notification.add({
-                        title: "Error Occured",
-                        message: "There were some problem registering student. Please try again later.",
-                        status: NotificationType.ERROR
-                    })
-                } else {
-                    notification.add({
-                        title: "Student Registered",
-                        message: "The student has been registered successfully. The teacher can login now.",
-                        status: NotificationType.SUCCESS
-                    })
-                    queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.TEACHER_LIST] })
-                    setIsOpen(false)
-                }
+            .then(() => {
+                notification.add({
+                    title: "Student Registered",
+                    message: "The student has been registered successfully. The teacher can login now.",
+                    status: NotificationType.SUCCESS
+                })
+                queryClient.invalidateQueries({ queryKey: [constants.QUERY_KEYS.TEACHER_LIST] })
+                setIsOpen(false)
+            })
+            .catch(err => {
+                notification.add({
+                    title: "Error Occured",
+                    message: parseErrorMessage(err as RawErrorMessageProps).message,
+                    status: NotificationType.ERROR
+                })
             })
             .finally(() => setIsLoading(false))
     }

@@ -8,7 +8,7 @@ import { useAuthStore } from 'stores/authStore';
 import { NotificationType } from 'types/notification';
 import DropdownSelect from 'packages/DropdownSelect';
 import SignInModal from './SignInModal';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const SignInButton = () => {
     const navigate = useNavigate()
@@ -41,21 +41,20 @@ const SignInButton = () => {
     const handleNameChange = () => {
         setIsLoading(true)
         updateLoggedInUser({ name })
-            .then((res) => {
-                if (res.error) {
-                    notification.add({
-                        title: "Error Occured",
-                        message: "There was an error updating name.",
-                        status: NotificationType.ERROR
-                    })
-                } else {
-                    notification.add({
-                        title: "Name updated",
-                        message: "Thank you for letting us know your name. From now on we will call you " + name + ".",
-                        status: NotificationType.INFO
-                    })
-                    queryClient.invalidateQueries({ queryKey: ["me"] })
-                }
+            .then(() => {
+                notification.add({
+                    title: "Name updated",
+                    message: "Thank you for letting us know your name. From now on we will call you " + name + ".",
+                    status: NotificationType.INFO
+                })
+                queryClient.invalidateQueries({ queryKey: ["me"] })
+            })
+            .catch(() => {
+                notification.add({
+                    title: "Error Occured",
+                    message: "There was an error updating name.",
+                    status: NotificationType.ERROR
+                })
             })
             .finally(() => {
                 setIsLoading(false)
@@ -84,10 +83,10 @@ const SignInButton = () => {
     }
 
     const navigateToProfileUrl = () => {
-        if(getLoggedInUserRole() == "TEACHER"){
+        if (getLoggedInUserRole() == "TEACHER") {
             navigate(`/teachers/${getLoggedInTeachersId()}`)
         }
-        if(getLoggedInUserRole() == "STUDENT"){
+        if (getLoggedInUserRole() == "STUDENT") {
             navigate(`/students/${getLoggedInStudentsId()}`)
         }
     }
