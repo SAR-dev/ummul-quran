@@ -102,7 +102,7 @@ const ManageClass = () => {
                         <div className="card flex-row items-center gap-3 border border-base-300 p-2">
                             <img className='h-12 card w-12 object-cover' src={classData.data.data.student.avatar.thumbnail_url} alt="" />
                             <div className="flex flex-col">
-                                <div className='font-medium'>{classData.data.data.student.name}</div>
+                                <Link to={`/students/${classData.data.data.students_id}`} className='font-medium hover:underline'>{classData.data.data.student.name}</Link>
                                 <div>{classData.data.data.student.whatsapp_no}</div>
                             </div>
                             <Link to={`https://wa.me/${classData.data.data.student.whatsapp_no}`} target='_blank' className="btn ml-auto btn-sm btn-icon">

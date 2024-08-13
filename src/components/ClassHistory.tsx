@@ -2,9 +2,12 @@ import { useQuery } from "@tanstack/react-query"
 import { ClassPlanListDataType, getCompletedClassPlans } from "api/teacher"
 import { formatDateRange, formatTimeRange } from "helpers/date"
 import { Link } from "react-router-dom"
+import { useAuthStore } from "stores/authStore"
 import { constants } from "stores/constantStore"
 
 const ClassHistory = () => {
+    const { getLoggedInTeachersId } = useAuthStore()
+
     const classListData = useQuery<ClassPlanListDataType, Error>({
         queryKey: [constants.QUERY_KEYS.CLASS_LIST, { finished: true }],
         queryFn: () => getCompletedClassPlans()
@@ -16,9 +19,9 @@ const ClassHistory = () => {
                 <div className="font-semibold">
                     Recent Classes
                 </div>
-                <button className="btn btn-sm bg-base-100">
+                <Link to={`/teachers/${getLoggedInTeachersId()}`} className="btn btn-sm bg-base-100">
                     See all
-                </button>
+                </Link>
             </div>
             {classListData.data?.data.data.map((class_plan, i) => (
                 <Link to={`/teachers/class/${class_plan.id}`} className="p-5 hover:bg-base-200" key={i}>
