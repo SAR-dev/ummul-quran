@@ -11,6 +11,7 @@ type AuthStore = {
     getLoggedInUserId: () => number,
     getLoggedInUserRole: () => string | null | undefined,
     getLoggedInTeachersId: () => number | null | undefined,
+    getLoggedInStudentsId: () => number | null | undefined,
 }
 
 export const useAuthStore = create<AuthStore>()(
@@ -63,6 +64,15 @@ export const useAuthStore = create<AuthStore>()(
                 if (!decoded.exp || !decoded.iat) return null;
                 if (decoded.exp <= now) return null;
                 return Number(decoded.teachers_id)
+            },
+            getLoggedInStudentsId: () => {
+                const authToken = get().token;
+                if (!authToken) return null;
+                const decoded: CustomJwtPayload = jwtDecode(authToken)
+                const now = Math.floor(Date.now() / 1000);
+                if (!decoded.exp || !decoded.iat) return null;
+                if (decoded.exp <= now) return null;
+                return Number(decoded.students_id)
             }
         }), {
         name: constants.JWT_AUTH_KEY,
