@@ -1,4 +1,4 @@
-import { ClassPlanCreateType, ClassPlanListType, ClassPlanType, ClassPlanUpdateType, StudentListType, TeacherAddType, TeacherListType } from "types/teacher";
+import { ClassPlanCreateType, ClassPlanListType, ClassPlanType, ClassPlanUpdateType, PackageStatType, StudentListType, TeacherAddType, TeacherListType } from "types/teacher";
 import api from "./base";
 import { DataResponseType } from "types/base";
 import { ClassPlanListByMonthDataType } from "./student";
@@ -184,6 +184,21 @@ export const getTeacherCompletedClassPlansByMonth = (id: number): Promise<ClassP
 export const deleteClassPlanById = (id: number): Promise<DataResponseType> => {
     return api
         .delete(`/teacher/class-plans/${id}`)
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
+
+export interface PackageStatDataType {
+    data: PackageStatType[]
+}
+
+export const getPackageStats = (year: number, month: number): Promise<PackageStatDataType> => {
+    return api
+        .get(`/teacher/class-plans/stats?year=${year}&month=${month}`)
         .then((res) => {
             return { data: res.data };
         })

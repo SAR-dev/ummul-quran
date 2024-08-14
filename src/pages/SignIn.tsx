@@ -14,7 +14,15 @@ const SignIn = () => {
 
   return (
     <UnAuthNavLayout>
-      <SignInModal />
+      <div className="h-screen w-full" style={{
+        backgroundImage: "url(https://i.ibb.co/BjjFyLJ/image.png)",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        backgroundPosition: "center",
+        backgroundSize: "cover"
+      }}>
+        <SignInModal disableAutoClose={true} />
+      </div>
     </UnAuthNavLayout>
   )
 }

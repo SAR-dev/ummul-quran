@@ -13,6 +13,7 @@ export const constants = {
         PACKAGE_LIST: "package-list",
         STUDENT_LIST_BY_TEACHER: "student-list-by-teacher",
         CLASS_LIST: "class-list",
+        CLASS_STAT: "class-stat",
         STUDENT_CLASS_LIST_BY_DATE: "student-class-list-by-date",
         CLASS_DETAILS: "class-details",
         TEACHER_UPCOMING_CLASS_LIST: "teacher-upcoming-class-list",

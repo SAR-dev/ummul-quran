@@ -10,7 +10,8 @@ const Modal = ({
     footer,
     maxWidth = "30rem",
     closeButton,
-    onClose = () => { }
+    onClose = () => { },
+    disableAutoClose
 }: {
     isOpen: boolean,
     setIsOpen: (props: boolean) => void,
@@ -19,10 +20,12 @@ const Modal = ({
     maxWidth?: string,
     closeButton?: boolean,
     footer?: ReactNode,
-    onClose?: () => void
+    onClose?: () => void,
+    disableAutoClose?: boolean
 }) => {
 
     const handleClose = () => {
+        if(disableAutoClose) return;
         onClose()
         setIsOpen(false)
     }

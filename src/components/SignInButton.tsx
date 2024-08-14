@@ -14,7 +14,7 @@ const SignInButton = () => {
     const navigate = useNavigate()
     const queryClient = useQueryClient()
     const notification = useNotification()
-    const { isLoggedIn, setToken, getLoggedInStudentsId, getLoggedInUserRole, getLoggedInTeachersId } = useAuthStore()
+    const { isLoggedIn, setToken, getLoggedInUserRole, getLoggedInTeachersId } = useAuthStore()
     const { setIsOpenSignIn } = useSignInModalStore();
 
     const [isLoading, setIsLoading] = useState(false)
@@ -85,9 +85,6 @@ const SignInButton = () => {
     const navigateToProfileUrl = () => {
         if (getLoggedInUserRole() == "TEACHER") {
             navigate(`/teachers/${getLoggedInTeachersId()}`)
-        }
-        if (getLoggedInUserRole() == "STUDENT") {
-            navigate(`/students/${getLoggedInStudentsId()}`)
         }
     }
 

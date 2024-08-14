@@ -11,7 +11,11 @@ import { NotificationType } from 'types/notification';
 import { sendMagicLink, verifyKey } from 'api/auth';
 import { AuthTokenType } from 'types/token';
 
-const SignInModal = () => {
+const SignInModal = ({
+    disableAutoClose
+}:{
+    disableAutoClose?: boolean
+}) => {
     const notification = useNotification()
     const navigate = useNavigate()
     const { setToken } = useAuthStore()
@@ -115,7 +119,7 @@ const SignInModal = () => {
     }
 
     return (
-        <Modal title="Sign In to continue" closeButton onClose={handleClose} isOpen={isOpenSignIn} setIsOpen={setIsOpenSignIn} maxWidth='25rem'>
+        <Modal title="Sign In to continue" closeButton onClose={handleClose} isOpen={isOpenSignIn} setIsOpen={setIsOpenSignIn} disableAutoClose={disableAutoClose} maxWidth='25rem'>
             {!isMailSent && (
                 <div className="flex flex-col gap-3 pb-5">
                     <input

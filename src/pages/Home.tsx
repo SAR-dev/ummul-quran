@@ -12,31 +12,27 @@ const Home = () => {
 
   useEffect(() => {
     if (!isLoggedIn()) {
-        navigate("/sign-in")
+      navigate("/sign-in")
     }
-    if(isLoggedIn() && getLoggedInUserRole() == "ADMIN"){
-      navigate("/admin/")
+    if (isLoggedIn() && getLoggedInUserRole() == "ADMIN") {
+      navigate("/admin")
     }
-}, [isLoggedIn, getLoggedInUserRole])
+  }, [isLoggedIn, getLoggedInUserRole])
 
   return (
-    <>
-      {getLoggedInUserRole() == "TEACHER" && (
-        <TeacherNavLayout>
-          <div className="grid grid-cols-4 w-full">
-            <div className="col-span-3">
-              <div className="p-16 w-full grid grid-cols-1 gap-10">
-                <ClassList />
-                <StudentList />
-              </div>
-            </div>
-            <div className="col-span-1 py-16">
-              <ClassHistory />
-            </div>
+    <TeacherNavLayout>
+      <div className="grid grid-cols-4 w-full">
+        <div className="col-span-3">
+          <div className="p-16 w-full grid grid-cols-1 gap-10">
+            <ClassList />
+            <StudentList />
           </div>
-        </TeacherNavLayout>
-      )}
-    </>
+        </div>
+        <div className="col-span-1 py-16">
+          <ClassHistory />
+        </div>
+      </div>
+    </TeacherNavLayout>
   )
 }
 

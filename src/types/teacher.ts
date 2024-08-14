@@ -94,3 +94,10 @@ export interface ClassPlanType {
     teacher: UserType;
     pack: PackageType;
 }
+
+export interface PackageStatType {
+    id: number;
+    name: string;
+    minutes: number;
+    class_count: number;
+}
