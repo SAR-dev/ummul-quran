@@ -7,13 +7,13 @@ import { useAuthStore } from "stores/authStore"
 import { constants } from "stores/constantStore"
 import { useDebounce } from 'ahooks';
 
+
 const ClassHistory = () => {
     const { getLoggedInTeachersId } = useAuthStore()
     const [year, setYear] = useState(new Date().getFullYear())
     const [month, setMonth] = useState(new Date().getMonth() + 1)
 
     const _year = useDebounce(year, { wait: 500 });
-    const _month = useDebounce(month, { wait: 500 });
 
     const classListData = useQuery<ClassPlanListDataType, Error>({
         queryKey: [constants.QUERY_KEYS.CLASS_LIST, { finished: true }],
@@ -21,7 +21,7 @@ const ClassHistory = () => {
     })
 
     const classStatData = useQuery<PackageStatDataType, Error>({
-        queryKey: [constants.QUERY_KEYS.CLASS_STAT, { year: _year, month: _month }],
+        queryKey: [constants.QUERY_KEYS.CLASS_STAT, { year: _year, month: month }],
         queryFn: () => getPackageStats(year, month)
     })
 
@@ -46,20 +46,27 @@ const ClassHistory = () => {
                             <tr>
                                 <th className="w-32">Month</th>
                                 <td>
-                                    <input
-                                        type="text"
-                                        className="input input-sm input-bordered w-20"
-                                        value={month}
+                                    <select
+                                        className="select select-sm select-bordered w-20"
+                                        value={month.toString()}
                                         onChange={e => setMonth(Number(e.target.value))}
-                                    />
+                                    >
+                                        {constants.MONTHS.map((e, i) => (
+                                            <option value={i + 1} key={i}>{e}</option>
+                                        ))}
+                                    </select>
                                 </td>
                             </tr>
                             {classStatData.data?.data.map((stat, i) => (
                                 <tr key={i}>
-                                    <th className="w-32 py-4">{stat.minutes} Min</th>
+                                    <th className="w-32 py-2">{stat.minutes} Min</th>
                                     <td>{stat.class_count} classes</td>
                                 </tr>
                             ))}
+                            <tr>
+                                <th className="w-32 py-2">Total</th>
+                                <td>{classStatData.data?.data.map(e => e.class_count).reduce((a, b) => a + b) ?? 0} classes</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

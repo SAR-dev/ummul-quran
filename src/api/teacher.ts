@@ -206,3 +206,14 @@ export const getPackageStats = (year: number, month: number): Promise<PackageSta
             throw err;
         });
 }
+
+export const getPackageStatsByTeacherId = (id: number, year: number, month: number): Promise<PackageStatDataType> => {
+    return api
+        .get(`/teacher/class-plans/stats/teacher/${id}?year=${year}&month=${month}`)
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
