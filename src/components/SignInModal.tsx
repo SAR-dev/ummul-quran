@@ -108,14 +108,14 @@ const SignInModal = ({
     const handleKeyChange = (i: number, value: string) => {
         setMagicKeys(magicKeys.map((e, index) => i === index ? value.slice(-1).toLocaleUpperCase() : e))
         const next = value === "" ? i - 1 : i + 1
-        if (inputRefs.current[next]) inputRefs.current[next].focus();
+        if (inputRefs.current[next]) inputRefs.current[next]?.focus();
     }
 
     const handlePasteData = (value: string) => {
         const values = value.split("")
         setMagicKeys(values)
         const next = values.length
-        if (inputRefs.current[next]) inputRefs.current[next].focus();
+        if (inputRefs.current[next]) inputRefs.current[next]?.focus();
     }
 
     return (

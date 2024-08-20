@@ -14,13 +14,21 @@ export const constants = {
         STUDENT_LIST_BY_TEACHER: "student-list-by-teacher",
         CLASS_LIST: "class-list",
         CLASS_STAT: "class-stat",
+        LOGGED_IN_CLASS_STAT: "logged-in-class-stat",
         STUDENT_CLASS_LIST_BY_DATE: "student-class-list-by-date",
+        LOGGED_IN_STUDENT_CLASS_LIST_BY_DATE: "logged-in-student-class-list-by-date",
         CLASS_DETAILS: "class-details",
         TEACHER_UPCOMING_CLASS_LIST: "teacher-upcoming-class-list",
         STUDENT_UPCOMING_CLASS_LIST: "student-upcoming-class-list",
+        LOGGED_IN_STUDENT_UPCOMING_CLASS_LIST: "logged-in-student-upcoming-class-list",
         STUDENT_DETAILS: "student-details",
+        LOGGED_IN_STUDENT_DETAILS: "logged-in-student-details",
         TEACHER_DETAILS: "teacher-details",
     },
-    MONTHS: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-
+    MONTHS: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    ROLES: {
+        STUDENT: "STUDENT",
+        TEACHER: "TEACHER",
+        ADMIN: "ADMIN"
+    }
 }

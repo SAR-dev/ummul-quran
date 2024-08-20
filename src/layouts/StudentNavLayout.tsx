@@ -4,12 +4,12 @@ import { useAuthStore } from 'stores/authStore';
 import AuthNavLayout from './AuthNavLayout';
 import { constants } from 'stores/constantStore';
 
-const TeacherNavLayout = ({ children }: { children: ReactNode }) => {
+const StudentNavLayout = ({ children }: { children: ReactNode }) => {
     const { getLoggedInUserRole } = useAuthStore()
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (getLoggedInUserRole() != constants.ROLES.TEACHER) {
+        if (getLoggedInUserRole() != constants.ROLES.STUDENT) {
             navigate(-1)
         }
     }, [getLoggedInUserRole, navigate])
@@ -21,4 +21,4 @@ const TeacherNavLayout = ({ children }: { children: ReactNode }) => {
     )
 }
 
-export default TeacherNavLayout
+export default StudentNavLayout

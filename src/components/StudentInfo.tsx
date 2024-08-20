@@ -4,7 +4,7 @@ import { StudentListType } from "types/teacher"
 
 const StudentInfo = ({ student }: { student: StudentListType }) => {
     return (
-        <div className="sticky top-0 card border border-base-300">
+        <div className="card border border-base-300">
             <div className="h-32 w-full flex flex-col gap-5 items-center my-5">
                 <img className='h-32 card w-32 object-cover' src={student.user.avatar.optimized_url} alt="" />
             </div>

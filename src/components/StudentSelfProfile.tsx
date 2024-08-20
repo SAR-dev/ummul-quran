@@ -1,76 +1,51 @@
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'ahooks';
-import { ClassPlanListByMonthDataType, UpcomingClassPlanListDataType } from 'api/student';
 import {
-  getPackageStatsByTeacherId,
-  getStudentsByTeacherId,
-  getTeacherById,
-  getTeacherCompletedClassPlansByMonth,
-  getUpcomingClassPlansByTeacherId,
-  PackageStatDataType,
-  StudentListDataType,
-  TeacherDataType,
-} from 'api/teacher';
+  ClassPlanListByMonthDataType,
+  StudentDataType,
+  UpcomingClassPlanListDataType,
+  getLoggedInStudent,
+  getUpcomingClassPlansByLoggedInStudent,
+  getLoggedInStudentCompletedClassPlansByMonth,
+  getPackageStatsByLoggedInStudent,
+} from 'api/student';
+import { PackageStatDataType } from 'api/teacher';
 import ClassTable from 'components/ClassTable';
-import StudentTable from 'components/StudentTable';
-import TeacherInfo from 'components/TeacherInfo';
-import AuthNavLayout from 'layouts/AuthNavLayout';
+import StudentInfo from 'components/StudentInfo';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { constants } from 'stores/constantStore';
 
-const Teacher = () => {
-  const { id = "" } = useParams();
-
+const StudentSelfProfile = () => {
   const [year, setYear] = useState(new Date().getFullYear())
   const [month, setMonth] = useState(new Date().getMonth() + 1)
 
   const _year = useDebounce(year, { wait: 500 });
 
   const classStatData = useQuery<PackageStatDataType, Error>({
-    queryKey: [constants.QUERY_KEYS.CLASS_STAT, { id: Number(id), year: _year, month: month }],
-    queryFn: () => getPackageStatsByTeacherId(Number(id), year, month),
-    enabled: Number(id) > 0
+    queryKey: [constants.QUERY_KEYS.LOGGED_IN_CLASS_STAT, { year: _year, month: month }],
+    queryFn: () => getPackageStatsByLoggedInStudent(year, month)
   })
-
-  const teacherData = useQuery<TeacherDataType, Error>({
-    queryKey: [constants.QUERY_KEYS.TEACHER_DETAILS, { id: Number(id) }],
-    queryFn: () => getTeacherById(Number(id)),
-    enabled: Number(id) > 0
-  })
-
-  const studentsData = useQuery<StudentListDataType, Error>({
-    queryKey: [constants.QUERY_KEYS.STUDENT_LIST_BY_TEACHER, { id: Number(id) }],
-    queryFn: () => getStudentsByTeacherId(Number(id)),
-    enabled: Number(id) > 0
+  
+  const studentData = useQuery<StudentDataType, Error>({
+    queryKey: [constants.QUERY_KEYS.LOGGED_IN_STUDENT_DETAILS],
+    queryFn: () => getLoggedInStudent()
   })
 
   const upcomingClassListData = useQuery<UpcomingClassPlanListDataType, Error>({
-    queryKey: [constants.QUERY_KEYS.TEACHER_UPCOMING_CLASS_LIST, { id: Number(id) }],
-    queryFn: () => getUpcomingClassPlansByTeacherId(Number(id)),
-    enabled: Number(id) > 0
+    queryKey: [constants.QUERY_KEYS.LOGGED_IN_STUDENT_UPCOMING_CLASS_LIST],
+    queryFn: () => getUpcomingClassPlansByLoggedInStudent()
   })
 
   const completedClassListData = useQuery<ClassPlanListByMonthDataType, Error>({
-    queryKey: [constants.QUERY_KEYS.STUDENT_CLASS_LIST_BY_DATE, { id: Number(id) }],
-    queryFn: () => getTeacherCompletedClassPlansByMonth(Number(id)),
-    enabled: Number(id) > 0
+    queryKey: [constants.QUERY_KEYS.LOGGED_IN_STUDENT_CLASS_LIST_BY_DATE],
+    queryFn: () => getLoggedInStudentCompletedClassPlansByMonth(),
   })
 
   return (
-    <AuthNavLayout>
-      <div className="grid grid-cols-4 gap-10 p-10 w-full">
-        <div className="col-span-3">
-          <div className="w-full grid grid-cols-1 gap-16">
-            <div className="flex flex-col gap-3">
-              <div className="font-semibold text-xl">Students</div>
-              {studentsData.data && studentsData.data.data.length > 0 && (
-                <div className="border border-base-300 card overflow-hidden">
-                  <StudentTable students={studentsData.data.data} />
-                </div>
-              )}
-            </div>
-            <div className="flex flex-col gap-3">
+    <div className="grid grid-cols-4 gap-10 p-10 w-full">
+      <div className="col-span-3">
+        <div className="w-full grid grid-cols-1 gap-16">
+          <div className="flex flex-col gap-3">
               <div className="font-semibold text-xl">Upcoming Class</div>
               {upcomingClassListData.data && upcomingClassListData.data.data.length > 0 && (
                 <div className="border border-base-300 card overflow-hidden">
@@ -87,13 +62,15 @@ const Teacher = () => {
                 </div>
               </div>
             ))}
-          </div>
         </div>
-        <div className="col-span-1">
-          {teacherData.data && (
-            <TeacherInfo teacher={teacherData.data.data} />
-          )}
-          <div className="card divide-y divide-base-300 w-full border border-base-300 rounded-r-none overflow-hidden mt-5">
+      </div>
+      <div className="col-span-1">
+        {studentData.data && (
+          <div>
+            <StudentInfo student={studentData.data.data} />
+          </div>
+        )}
+        <div className="card divide-y divide-base-300 w-full border border-base-300 rounded-r-none overflow-hidden mt-5">
             <div className="p-3 text-center font-medium">Class Statistics</div>
             <div className="overflow-hidden">
               <table className="table">
@@ -137,10 +114,9 @@ const Teacher = () => {
               </table>
             </div>
           </div>
-        </div>
       </div>
-    </AuthNavLayout>
+    </div>
   )
 }
 
-export default Teacher
+export default StudentSelfProfile
