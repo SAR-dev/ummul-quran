@@ -1,4 +1,4 @@
-import { ClassPlanCreateType, ClassPlanListType, ClassPlanType, ClassPlanUpdateType, PackageStatType, StudentListType, TeacherAddType, TeacherListType } from "types/teacher";
+import { BulkClassPlanCreateType, ClassPlanCreateType, ClassPlanListType, ClassPlanType, ClassPlanUpdateType, PackageStatType, StudentListType, TeacherAddType, TeacherListType } from "types/teacher";
 import api from "./base";
 import { DataResponseType } from "types/base";
 import { ClassPlanListByMonthDataType } from "./student";
@@ -47,6 +47,17 @@ export const getStudentsByTeacher = (): Promise<StudentListDataType> => {
 export const createClassPlan = (data: ClassPlanCreateType): Promise<DataResponseType> => {
     return api
         .post("/teacher/class-plans", data)
+        .then((res) => {
+            return { data: res.data };
+        })
+        .catch((err) => {
+            throw err;
+        });
+}
+
+export const createBulkClassPlan = (data: BulkClassPlanCreateType): Promise<DataResponseType> => {
+    return api
+        .post("/teacher/class-plans/bulk", data)
         .then((res) => {
             return { data: res.data };
         })

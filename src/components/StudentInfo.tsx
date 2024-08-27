@@ -45,6 +45,10 @@ const StudentInfo = ({ student }: { student: StudentListType }) => {
                             <th className="w-32">Next Class</th>
                             <td>{formatDate(student.next_class)}</td>
                         </tr>
+                        <tr>
+                            <th className="w-32">Teacher</th>
+                            <td>{student.teacher.name}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

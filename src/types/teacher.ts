@@ -59,6 +59,15 @@ export interface ClassPlanCreateType {
     memo: string;
 }
 
+export interface BulkClassPlanCreateType {
+    students_id: number;
+    class_plans: {
+        start_at: string;
+        finish_at: string;
+        topic: string;
+    }[]
+}
+
 export interface ClassPlanUpdateType {
     start_at: string;
     finish_at: string;

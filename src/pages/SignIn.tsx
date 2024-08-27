@@ -3,6 +3,7 @@ import UnAuthNavLayout from "layouts/UnAuthNavLayout";
 import { useEffect } from "react";
 import { useAuthStore } from "stores/authStore";
 import { useSignInModalStore } from "stores/signInModalStore";
+import SignInCoverImage from "assets/sign-in-cover.jpg"
 
 const SignIn = () => {
   const { setIsOpenSignIn } = useSignInModalStore();
@@ -15,7 +16,7 @@ const SignIn = () => {
   return (
     <UnAuthNavLayout>
       <div className="h-screen w-full" style={{
-        backgroundImage: "url(https://i.ibb.co/BjjFyLJ/image.png)",
+        backgroundImage: `url(${SignInCoverImage})`,
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
         backgroundPosition: "center",

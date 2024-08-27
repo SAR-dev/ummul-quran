@@ -1,69 +1,171 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { createClassPlan, getStudentsByTeacher, StudentListDataType } from 'api/teacher'
+import { createBulkClassPlan, getStudentsByTeacher, StudentListDataType } from 'api/teacher';
 import { useNotification } from 'contexts/Notification';
-import { getDateTimeWithOffset, getTodayDateInYYYYMMDD } from 'helpers/date';
-import { parseErrorMessage, RawErrorMessageProps } from 'helpers/error';
 import TeacherNavLayout from 'layouts/TeacherNavLayout'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { constants } from 'stores/constantStore'
+import { Calendar, DateObject } from "react-multi-date-picker";
+import { BulkClassPlanCreateType } from 'types/teacher';
+import { getDateTimeWithOffset } from 'helpers/date';
 import { NotificationType } from 'types/notification';
-import { ClassPlanCreateType } from 'types/teacher'
+import { parseErrorMessage, RawErrorMessageProps } from 'helpers/error';
+import { configResponsive, useResponsive } from 'ahooks';
+
+configResponsive({
+  small: 0,
+  medium: 600,
+  large: 1000,
+});
+
+interface ClassPlanType {
+  date: DateObject;
+  startTime: string;
+  endTime: string;
+  topic: string;
+}
 
 const CreateClass = () => {
+  const responsive = useResponsive();
   const notification = useNotification()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
   const [studentsId, setStudentsId] = useState<number | undefined>(undefined)
-  const [startDate, setStartDate] = useState<string>(getTodayDateInYYYYMMDD())
-  const [startTime, setStartTime] = useState<string>("12:00")
-  const [endDate, setEndDate] = useState<string>(getTodayDateInYYYYMMDD())
-  const [endTime, setEndTime] = useState<string>("13:00")
-  const [topic, setTopic] = useState("")
-  const [description, setDescription] = useState("")
-  const [memo, setMemo] = useState("")
-
   const [isLoading, setIsLoading] = useState(false)
+
+  const [classPlans, setClassPlans] = useState<ClassPlanType[]>([])
+
+  const noOfCalendarCols = useMemo(() => {
+    if(responsive["large"]) return 3;
+    if(responsive["medium"]) return 2;
+    return 1;
+  }, [responsive])
+
+  const sortedClassPlans = useMemo(() => {
+    return [...classPlans].sort((a, b) => {
+      // Compare years
+      if (a.date.year !== b.date.year) return a.date.year - b.date.year;
+
+      // Compare months
+      if (a.date.month.number !== b.date.month.number) return a.date.month.number - b.date.month.number;
+
+      // Compare days
+      return a.date.day - b.date.day;
+    });
+  }, [classPlans]);
 
   const studentListData = useQuery<StudentListDataType, Error>({
     queryKey: [constants.QUERY_KEYS.STUDENT_LIST_BY_TEACHER],
     queryFn: () => getStudentsByTeacher(),
   })
 
+  const handleClassDates = (dates: DateObject[]) => {
+    setClassPlans(prevClassPlans =>
+      dates.map((newDate, index) => {
+        const existingPlan = prevClassPlans[index] || {
+          startTime: "",
+          endTime: "",
+          topic: ""
+        };
+
+        return {
+          ...existingPlan,
+          date: newDate,
+        };
+      })
+    );
+  };
+
+
   const selectStudentById = (val: string) => {
     setStudentsId(Number(val))
   }
 
-  const parseDateChange = (val: string) => {
-    if (constants.REGEX_PATTERN.DATE.test(val)) {
-      const date = new Date(val);
-      if (date.toISOString().startsWith(val)) {
-        return val;
-      }
-    }
-    return startDate;
+  const handleStartTimeChange = (date: DateObject, time: string) => {
+    if (!constants.REGEX_PATTERN.TIME.test(time)) return;
+    setClassPlans(prevClassPlans =>
+      prevClassPlans.map(plan => {
+        // Check if the plan's date matches the provided date
+        if (
+          plan.date.year === date.year &&
+          plan.date.month.number === date.month.number &&
+          plan.date.day === date.day
+        ) {
+          // Return a new object with the updated startTime
+          return {
+            ...plan,
+            startTime: time
+          };
+        }
+        // Return the plan unchanged if the date doesn't match
+        return plan;
+      })
+    );
+  };
+
+  const handleEndTimeChange = (date: DateObject, time: string) => {
+    if (!constants.REGEX_PATTERN.TIME.test(time)) return;
+    setClassPlans(prevClassPlans =>
+      prevClassPlans.map(plan => {
+        // Check if the plan's date matches the provided date
+        if (
+          plan.date.year === date.year &&
+          plan.date.month.number === date.month.number &&
+          plan.date.day === date.day
+        ) {
+          // Return a new object with the updated startTime
+          return {
+            ...plan,
+            endTime: time
+          };
+        }
+        // Return the plan unchanged if the date doesn't match
+        return plan;
+      })
+    );
+  };
+
+  const handleTopicChange = (date: DateObject, topic: string) => {
+    setClassPlans(prevClassPlans =>
+      prevClassPlans.map(plan => {
+        // Check if the plan's date matches the provided date
+        if (
+          plan.date.year === date.year &&
+          plan.date.month.number === date.month.number &&
+          plan.date.day === date.day
+        ) {
+          // Return a new object with the updated startTime
+          return {
+            ...plan,
+            topic: topic
+          };
+        }
+        // Return the plan unchanged if the date doesn't match
+        return plan;
+      })
+    );
+  };
+
+  const handleDelete = (date: DateObject) => {
+    setClassPlans(prevClassPlans => prevClassPlans.filter(e => e.date.format() != date.format()))
   }
 
-  const parseTimeChange = (val: string) => {
-    if (constants.REGEX_PATTERN.TIME.test(val)) {
-      return val;
-    }
-    return startTime;
-  }
 
   const handleSubmit = () => {
     if (!studentsId) return;
-    const payload: ClassPlanCreateType = {
+    const payload: BulkClassPlanCreateType = {
       students_id: studentsId,
-      start_at: getDateTimeWithOffset({ date: startDate, time: startTime }),
-      finish_at: getDateTimeWithOffset({ date: endDate, time: endTime }),
-      topic,
-      description,
-      memo
+      class_plans: classPlans.map(e => {
+        return {
+          start_at: getDateTimeWithOffset({ date: e.date.format("YYYY-MM-DD"), time: e.startTime }),
+          finish_at: getDateTimeWithOffset({ date: e.date.format("YYYY-MM-DD"), time: e.endTime }),
+          topic: e.topic
+        }
+      })
     }
     setIsLoading(true)
-    createClassPlan(payload).then(() => {
+    createBulkClassPlan(payload).then(() => {
       notification.add({
         title: "Class Registered",
         message: "The class plan has been registered successfully.",
@@ -85,7 +187,7 @@ const CreateClass = () => {
   return (
     <TeacherNavLayout>
       <div className="px-16 py-10">
-        <div className='grid grid-cols-2 gap-5 max-w-3xl'>
+        <div className='flex flex-col gap-5 max-w-3xl'>
 
           <label className="form-control flex flex-col w-full">
             <div className="label">
@@ -111,84 +213,51 @@ const CreateClass = () => {
             </div>
           </label>
 
-          <label className="form-control flex flex-col w-full">
+          <div>
             <div className="label">
-              <span className="label-text">Class Topic</span>
+              <span className="label-text">Select Dates</span>
             </div>
-            <input
-              type="text"
-              className="input input-bordered"
-              value={topic}
-              onChange={e => setTopic(e.target.value)}
+            <Calendar
+              value={classPlans.map(e => e.date)}
+              onChange={handleClassDates}
+              multiple
+              numberOfMonths={noOfCalendarCols}
+              minDate={new Date()}
+              shadow={false}
             />
-          </label>
-
-          <label className="form-control flex flex-col w-full">
-            <div className="label">
-              <span className="label-text">Class Starts At</span>
-            </div>
-            <div className="flex gap-5">
-              <input
-                type="date"
-                value={startDate}
-                className='input input-bordered w-full'
-                onChange={e => {
-                  setStartDate(parseDateChange(e.target.value))
-                  setEndDate(parseDateChange(e.target.value))
-                }}
-              />
-              <input
-                type="time"
-                value={startTime}
-                className='input input-bordered w-full'
-                onChange={e => setStartTime(parseTimeChange(e.target.value))}
-              />
-            </div>
-          </label>
-
-          <label className="form-control flex flex-col w-full">
-            <div className="label">
-              <span className="label-text">Class Ends At</span>
-            </div>
-            <div className="flex gap-5">
-              <input
-                type="date"
-                value={endDate}
-                className='input input-bordered w-full'
-                onChange={e => setEndDate(parseDateChange(e.target.value))}
-              />
-              <input
-                type="time"
-                value={endTime}
-                className='input input-bordered w-full'
-                onChange={e => setEndTime(parseTimeChange(e.target.value))}
-              />
-            </div>
-          </label>
-
-          <div className="col-span-2">
-            <label className="form-control flex flex-col w-full">
-              <div className="label">
-                <span className="label-text">Class Details</span>
-              </div>
-              <textarea
-                className='textarea textarea-bordered'
-                rows={3}
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-              />
-            </label>
           </div>
 
-          <label className="form-control flex flex-col w-full">
-            <input
-              type="text"
-              className="input input-bordered"
-              value={memo}
-              onChange={e => setMemo(e.target.value)}
-              placeholder='Write a memo'
-            />
-          </label>
+          <div className="grid grid-cols-1 gap-5">
+            {sortedClassPlans.map((classPlan, i) => (
+              <div className='flex flex-col gap-3' key={i}>
+                <div className="flex justify-between w-full items-center">
+                  <div className="font-medium">{classPlan.date.format("dddd, DD MMMM YYYY")}</div>
+                  <button className="btn btn-xs" onClick={() => handleDelete(classPlan.date)}>Delete</button>
+                </div>
+                <div className="grid grid-cols-3 gap-5">
+                  <input
+                    type="time"
+                    value={classPlan.startTime}
+                    className='input input-bordered w-full'
+                    onChange={e => handleStartTimeChange(classPlan.date, e.target.value)}
+                  />
+                  <input
+                    type="time"
+                    value={classPlan.endTime}
+                    className='input input-bordered w-full'
+                    onChange={e => handleEndTimeChange(classPlan.date, e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder='Topic'
+                    value={classPlan.topic}
+                    className='input input-bordered w-full'
+                    onChange={e => handleTopicChange(classPlan.date, e.target.value)}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
 
           <button
             className="btn btn-primary"

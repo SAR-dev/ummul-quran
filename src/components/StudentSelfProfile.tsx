@@ -31,39 +31,8 @@ const StudentSelfProfile = () => {
     queryFn: () => getLoggedInStudent()
   })
 
-  const upcomingClassListData = useQuery<UpcomingClassPlanListDataType, Error>({
-    queryKey: [constants.QUERY_KEYS.LOGGED_IN_STUDENT_UPCOMING_CLASS_LIST],
-    queryFn: () => getUpcomingClassPlansByLoggedInStudent()
-  })
-
-  const completedClassListData = useQuery<ClassPlanListByMonthDataType, Error>({
-    queryKey: [constants.QUERY_KEYS.LOGGED_IN_STUDENT_CLASS_LIST_BY_DATE],
-    queryFn: () => getLoggedInStudentCompletedClassPlansByMonth(),
-  })
-
   return (
-    <div className="grid grid-cols-4 gap-10 p-10 w-full">
-      <div className="col-span-3">
-        <div className="w-full grid grid-cols-1 gap-16">
-          <div className="flex flex-col gap-3">
-              <div className="font-semibold text-xl">Upcoming Class</div>
-              {upcomingClassListData.data && upcomingClassListData.data.data.length > 0 && (
-                <div className="border border-base-300 card overflow-hidden">
-                  <ClassTable class_plans={upcomingClassListData.data?.data} />
-                </div>
-              )}
-            </div>
-
-            {completedClassListData.data?.data.map((class_plan_list, i) => (
-              <div className="flex flex-col gap-3" key={i}>
-                <div className="font-semibold text-xl">{class_plan_list.year} {constants.MONTHS[class_plan_list.month - 1]}</div>
-                <div className="border border-base-300 card overflow-hidden">
-                  <ClassTable class_plans={class_plan_list.class_plans} />
-                </div>
-              </div>
-            ))}
-        </div>
-      </div>
+    <div className="w-full max-w-96 mx-auto my-5">
       <div className="col-span-1">
         {studentData.data && (
           <div>
