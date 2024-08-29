@@ -1,4 +1,3 @@
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { PackageType } from 'types/package'
 
 const PackageInList = ({ pac }: { pac: PackageType }) => {

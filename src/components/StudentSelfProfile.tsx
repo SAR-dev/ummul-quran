@@ -1,16 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'ahooks';
-import {
-  ClassPlanListByMonthDataType,
-  StudentDataType,
-  UpcomingClassPlanListDataType,
-  getLoggedInStudent,
-  getUpcomingClassPlansByLoggedInStudent,
-  getLoggedInStudentCompletedClassPlansByMonth,
-  getPackageStatsByLoggedInStudent,
-} from 'api/student';
+import { StudentDataType, getLoggedInStudent, getPackageStatsByLoggedInStudent } from 'api/student';
 import { PackageStatDataType } from 'api/teacher';
-import ClassTable from 'components/ClassTable';
 import StudentInfo from 'components/StudentInfo';
 import { useState } from 'react';
 import { constants } from 'stores/constantStore';
