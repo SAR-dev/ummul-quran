@@ -11,6 +11,7 @@ import { getDateTimeWithOffset } from 'helpers/date';
 import { NotificationType } from 'types/notification';
 import { parseErrorMessage, RawErrorMessageProps } from 'helpers/error';
 import { configResponsive, useResponsive } from 'ahooks';
+import "react-multi-date-picker/styles/layouts/mobile.css";
 
 configResponsive({
   small: 0,
@@ -186,7 +187,7 @@ const CreateClass = () => {
 
   return (
     <TeacherNavLayout>
-      <div className="px-16 py-10">
+      <div className="p-5 md:px-16 md:py-10">
         <div className='flex flex-col gap-5 max-w-3xl'>
 
           <label className="form-control flex flex-col w-full">
@@ -224,6 +225,7 @@ const CreateClass = () => {
               numberOfMonths={noOfCalendarCols}
               minDate={new Date()}
               shadow={false}
+              className={noOfCalendarCols == 1 ? "rmdp-mobile" : ""}
             />
           </div>
 
@@ -234,7 +236,7 @@ const CreateClass = () => {
                   <div className="font-medium">{classPlan.date.format("dddd, DD MMMM YYYY")}</div>
                   <button className="btn btn-xs" onClick={() => handleDelete(classPlan.date)}>Delete</button>
                 </div>
-                <div className="grid grid-cols-3 gap-5">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
                   <input
                     type="time"
                     value={classPlan.startTime}
@@ -251,7 +253,7 @@ const CreateClass = () => {
                     type="text"
                     placeholder='Topic'
                     value={classPlan.topic}
-                    className='input input-bordered w-full'
+                    className='input input-bordered w-full col-span-2 md:col-span-1'
                     onChange={e => handleTopicChange(classPlan.date, e.target.value)}
                   />
                 </div>

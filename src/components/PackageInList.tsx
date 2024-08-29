@@ -13,7 +13,7 @@ const PackageInList = ({ pac }: { pac: PackageType }) => {
                 </div>
             </div>
             <div className="flex gap-2 opacity-0 group-hover:opacity-100">
-                <div className="tooltip" data-tip="Edit">
+                {/* <div className="tooltip" data-tip="Edit">
                     <button className="btn btn-sm btn-square">
                         <PencilIcon className='h-4 w-4' />
                     </button>
@@ -22,7 +22,7 @@ const PackageInList = ({ pac }: { pac: PackageType }) => {
                     <button className="btn btn-sm btn-square">
                         <TrashIcon className='h-4 w-4' />
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     )

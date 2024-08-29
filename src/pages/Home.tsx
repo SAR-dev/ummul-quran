@@ -23,14 +23,14 @@ const Home = () => {
     <>
       {getLoggedInUserRole() == constants.ROLES.TEACHER && (
         <TeacherNavLayout>
-          <div className="grid grid-cols-4 w-full">
-            <div className="col-span-3">
-              <div className="p-16 w-full grid grid-cols-1 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-4 w-full">
+            <div className="col-span-1 md:col-span-3">
+              <div className="p-5 md:p-16 w-full grid grid-cols-1 gap-10">
                 <ClassList />
                 <StudentList />
               </div>
             </div>
-            <div className="col-span-1 py-16">
+            <div className="col-span-1 p-5 md:py-16">
               <ClassHistory />
             </div>
           </div>

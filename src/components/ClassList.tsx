@@ -58,9 +58,9 @@ const ClassList = () => {
 
 
     return (
-        <div className="p-8 bg-base-200 card border border-base-300 flex flex-col gap-5">
+        <div className="p-5 md:p-8 bg-base-200 card border border-base-300 flex flex-col gap-5">
 
-            <div className="flex justify-between">
+            <div className="flex flex-col gap-3 md:flex-row justify-between">
                 <div className="text-xl font-semibold">You have {todayClasses.length} classes today</div>
                 <div className="flex gap-3">
                     <Link to="/teachers/class/create" className="btn btn-sm bg-base-100">
@@ -75,15 +75,17 @@ const ClassList = () => {
 
             {nearestUpcomingClass && (
                 <div className="bg-info/30 px-6 py-3 card flex-row gap-2 items-center">
-                    <div className="w-8">
+                    <div className="w-8 hidden md:block">
                         <InformationCircleIcon className="h-5 w-5" />
                     </div>
-                    You have a
-                    <b>{nearestUpcomingClass.pack.minutes} minutes</b>
-                    class with
-                    <b>{nearestUpcomingClass.student.name}</b>
-                    {nearestUpcomingClass.student.location ? `of ${nearestUpcomingClass.student.location}` : ""}
-                    <b><Countdown date={new Date(nearestUpcomingClass.start_at)} renderer={countdownRenderer} /></b>
+                    <div>
+                        You have a {" "}
+                        <b>{nearestUpcomingClass.pack.minutes} minutes</b> {" "}
+                        class with {" "}
+                        <b>{nearestUpcomingClass.student.name}</b> {" "}
+                        {nearestUpcomingClass.student.location ? `of ${nearestUpcomingClass.student.location}` : ""} {" "}
+                        <b><Countdown date={new Date(nearestUpcomingClass.start_at)} renderer={countdownRenderer} /></b>
+                    </div>
                 </div>
             )}
 
@@ -91,14 +93,14 @@ const ClassList = () => {
 
             {todayClasses.length == 0 && !!upcomingClassListData.data?.data && (
                 <div className="bg-base-100 px-6 py-3 card flex-row gap-2 items-center">
-                    <div className="w-8 text-xl">🥳</div>
+                    <div className="w-8 text-xl hidden md:block">🥳</div>
                     You do not have any pending class today
                 </div>
             )}
 
             {(((upcomingClassListData.data?.data.length ?? 0) - todayClasses.length) > 0) && (
                 <div className="bg-base-100 px-6 py-3 card flex-row gap-2 items-center">
-                    <div className="w-8 text-xl">🚀</div>
+                    <div className="w-8 text-xl hidden md:block">🚀</div>
                     You have a {(upcomingClassListData.data?.data.length ?? 0) - todayClasses.length} classes planned after today
                 </div>
             )}

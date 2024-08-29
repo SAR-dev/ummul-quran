@@ -151,9 +151,9 @@ const UpdateClass = () => {
 
   return (
     <TeacherNavLayout>
-      <div className="px-16 py-10">
-        <div className='grid grid-cols-2 gap-5 max-w-3xl'>
-
+      <div className="p-5 md:px-16 md:py-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl">
+          
           <label className="form-control flex flex-col w-full">
             <div className="label">
               <span className="label-text">Select Student</span>

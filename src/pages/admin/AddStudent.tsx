@@ -90,10 +90,10 @@ const AddStudent = () => {
 
   return (
     <AdminNavLayout>
-      <div className="px-16 py-10">
-        <div className="grid grid-cols-2 gap-5 max-w-3xl">
-          <div className="col-span-2">
-          <div className="label">
+      <div className="p-5 md:px-16 md:py-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl">
+          <div className="col-span-1 md:col-span-2">
+            <div className="label">
               <span className="label-text">Teacher</span>
             </div>
             <div className="card flex-row items-center gap-3 border border-base-300 p-2">
