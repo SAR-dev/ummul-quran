@@ -9,8 +9,9 @@ import { NotificationType } from 'types/notification';
 import DropdownSelect from 'packages/DropdownSelect';
 import SignInModal from './SignInModal';
 import { useNavigate } from 'react-router-dom';
+import { UserPlusIcon } from '@heroicons/react/24/outline';
 
-const SignInButton = () => {
+const SignInButton = ({ asMobile }: { asMobile?: boolean }) => {
     const navigate = useNavigate()
     const queryClient = useQueryClient()
     const notification = useNotification()
@@ -90,19 +91,33 @@ const SignInButton = () => {
 
     if (isLoggedIn()) {
         return (
-            <div>
-                <DropdownSelect
-                    button={
-                        <button className="btn btn-outline border-base-300">
-                            <img src={user.data?.data.avatar.optimized_url} className='h-5 w-5 rounded-full object-cover' />
-                            <div>{user.data?.data.name}</div>
+            <>
+                {!asMobile && (
+                    <DropdownSelect
+                        button={
+                            <button className="btn btn-outline border-base-300">
+                                <img src={user.data?.data.avatar.optimized_url} className='h-5 w-5 rounded-full object-cover' />
+                                <div>{user.data?.data.name}</div>
+                            </button>
+                        }
+                        options={[
+                            { text: user.data?.data.name ?? "User Profile", value: user.data?.data.name ?? "", handleClick: navigateToProfileUrl, icon: <div className='mr-1'>😎</div> },
+                            { text: "Sign Out", value: "sign-out", handleClick: handleSignOut, icon: <div className='mr-1'>👋</div> },
+                        ]}
+                    />
+                )}
+                {asMobile && (
+                    <>
+                        <button className="btn btn-icon btn-ghost rounded-none justify-start" onClick={navigateToProfileUrl}>
+                            <div>😎</div>
+                            {user.data?.data.name ?? ""}
                         </button>
-                    }
-                    options={[
-                        { text: user.data?.data.name ?? "User Profile", value: user.data?.data.name ?? "", handleClick: navigateToProfileUrl, icon: <div className='mr-1'>😎</div> },
-                        { text: "Sign Out", value: "sign-out", handleClick: handleSignOut, icon: <div className='mr-1'>👋</div> },
-                    ]}
-                />
+                        <button className="btn btn-icon btn-ghost rounded-none justify-start" onClick={handleSignOut}>
+                            <div>👋</div>
+                            Sign Out
+                        </button>
+                    </>
+                )}
                 <Modal isOpen={nameNotSet} setIsOpen={setNameNotSet} title='What should we call you ?'>
                     <div className='flex flex-col gap-5 pb-5'>
                         <input type="text" placeholder="Type your nickname..." className="input input-bordered w-full" disabled={isLoading} value={name} onChange={e => setName(e.target.value)} />
@@ -114,14 +129,24 @@ const SignInButton = () => {
                         </button>
                     </div>
                 </Modal>
-            </div>
+            </>
         )
     } else {
         return (
-            <div>
-                <button className="btn" onClick={() => setIsOpenSignIn(true)}>Sign In</button>
+            <>
+                {!asMobile && (
+                    <button className="btn" onClick={() => setIsOpenSignIn(true)}>
+                        Sign In
+                    </button>
+                )}
+                {asMobile && (
+                    <button className="btn btn-icon btn-ghost rounded-none justify-start" onClick={() => setIsOpenSignIn(true)}>
+                        <UserPlusIcon className='h-5 w-5' />
+                        Sign In
+                    </button>
+                )}
                 <SignInModal />
-            </div>
+            </>
         )
     }
 }

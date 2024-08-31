@@ -205,7 +205,7 @@ const CreateClass = () => {
                   value={c.students_id}
                   key={i}
                 >
-                  {c.user.name} ({c.pack.minutes} Min){c.user.location ? "," : ""} {c.user.location}
+                  {c.user.name} ({c.pack?.minutes} Min){c.user.location ? "," : ""} {c.user.location}
                 </option>
               ))}
             </select>

@@ -68,7 +68,7 @@ const StudentSelfProfile = () => {
                   ))}
                   <tr>
                     <th className="w-32 py-2">Total</th>
-                    <td>{classStatData.data?.data.map(e => e.class_count).reduce((a, b) => a + b) ?? 0} classes</td>
+                    <td>{classStatData.data?.data.map(e => e.class_count).reduce((a, b) => a + b, 0) ?? 0} classes</td>
                   </tr>
                 </tbody>
               </table>

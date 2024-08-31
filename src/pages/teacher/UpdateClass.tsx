@@ -170,7 +170,7 @@ const UpdateClass = () => {
                   value={c.students_id}
                   key={i}
                 >
-                  {c.user.name} ({c.pack.minutes} Min){c.user.location ? "," : ""} {c.user.location}
+                  {c.user.name} ({c.pack?.minutes} Min){c.user.location ? "," : ""} {c.user.location}
                 </option>
               ))}
             </select>
@@ -234,7 +234,7 @@ const UpdateClass = () => {
             </div>
           </label>
 
-          <div className="col-span-2">
+          <div className="col-span-1 md:col-span-2">
             <label className="form-control flex flex-col w-full">
               <div className="label">
                 <span className="label-text">Class Details</span>

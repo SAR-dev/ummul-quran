@@ -29,7 +29,7 @@ const StudentInfo = ({ student }: { student: StudentListType }) => {
                         </tr>
                         <tr>
                             <th className="w-32">Package</th>
-                            <td>{student.pack.name}, {student.pack.minutes} Min</td>
+                            <td>{student.pack?.name}, {student.pack?.minutes} Min</td>
                         </tr>
                         <tr>
                             <th className="w-32">Class Link</th>
@@ -47,7 +47,7 @@ const StudentInfo = ({ student }: { student: StudentListType }) => {
                         </tr>
                         <tr>
                             <th className="w-32">Teacher</th>
-                            <td>{student.teacher.name}</td>
+                            <td>{student.teacher?.name}</td>
                         </tr>
                     </tbody>
                 </table>

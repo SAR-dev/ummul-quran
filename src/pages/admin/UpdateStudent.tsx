@@ -48,12 +48,12 @@ const UpdateStudent = () => {
         setWhatsAppNo(data.data.user.whatsapp_no ?? "")
         setClassLink(data.data.class_link)
         setPrice(data.data.price_bdt)
-        setPackageId(data.data.pack.id)
+        setPackageId(data.data.pack?.id ?? null)
         setConatctNo(data.data.user.contact_no ?? "")
         setGender(data.data.user.gender ?? "MALE")
         setUtc(data.data.user.utc)
         setTeacherId(data.data.teachers_id)
-        setTeacher(data.data.teacher)
+        setTeacher(data.data?.teacher ?? null)
       })
       .catch(err => {
         notification.add({

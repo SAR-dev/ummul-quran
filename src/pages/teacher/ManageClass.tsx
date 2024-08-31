@@ -1,4 +1,4 @@
-import { PlayIcon, StopIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, PlayIcon, StopIcon } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { ClassPlanDataType, finishClassPlanById, getClassPlanById, startClassPlanById } from 'api/teacher';
@@ -85,10 +85,7 @@ const ManageClass = () => {
         <TeacherNavLayout>
             {classData.data && (
                 <div className='w-full flex justify-center'>
-                    <div className="grid grid-cols-1 gap-10 py-10 px-5 max-w-[30rem] w-full">
-                        <div className="mx-auto -mb-5">
-                            <Link to={`/teachers/class/${id}/update`} className="btn btn-xs">Edit</Link>
-                        </div>
+                    <div className="grid grid-cols-1 gap-10 md:py-10 px-5 max-w-[30rem] w-full">
                         <div className="flex flex-col gap-2 text-center">
                             <div className='text-2xl'>{classData.data.data.topic}</div>
                             <div className='opacity-75'>{classData.data.data.description}</div>
@@ -111,7 +108,7 @@ const ManageClass = () => {
                             </Link>
                         </div>
                         {!classData.data.data.started && (
-                            <button className="btn btn-icon" disabled={isLoading} onClick={startClass}>
+                            <button className="btn btn-icon btn-primary" disabled={isLoading} onClick={startClass}>
                                 <PlayIcon className='h-5 w-5' />
                                 Start Class
                             </button>
@@ -144,6 +141,10 @@ const ManageClass = () => {
                                 <button className="btn btn-info" onClick={() => navigate(-1)}>Done</button>
                             </>
                         )}
+                        <Link to={`/teachers/class/${id}/update`} className="btn btn-icon -mt-5">
+                            <PencilIcon className='h-4 w-4' />
+                            Edit
+                        </Link>
                     </div>
                 </div>
             )}
