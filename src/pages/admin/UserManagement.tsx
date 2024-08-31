@@ -27,7 +27,7 @@ const UserManagement = () => {
         <AdminNavLayout>
             <div className="p-5 md:px-16 md:py-10">
                 <div className="flex flex-col md:flex-row gap-10 items-start">
-                    <div className="grid grid-cols-1 gap-5 w-full max:w-[30rem] bg-base-200 p-5 card">
+                    <div className="grid grid-cols-1 gap-5 w-full max-w-[30rem] bg-base-200 p-5 card">
                         <div className="flex items-center justify-between">
                             <div className='font-semibold opacity-75'>👨‍🎓 Teacher List</div>
                             <Link className="btn btn-sm bg-base-100" to="/admin/teacher/create">
@@ -41,7 +41,7 @@ const UserManagement = () => {
                             ))}
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 gap-5 w-full max:w-96 bg-base-200 p-5 card">
+                    <div className="grid grid-cols-1 gap-5 w-full max-w-96 bg-base-200 p-5 card">
                         <div className="flex items-center justify-between">
                             <div className='font-semibold opacity-75'>🏷️ Package List</div>
                             <button className="btn btn-sm bg-base-100" onClick={() => setAddPackageModal(true)}>

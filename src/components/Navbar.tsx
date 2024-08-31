@@ -2,7 +2,7 @@ import ThemeSwitcher from 'packages/ThemeSwitcher'
 import { Link } from 'react-router-dom'
 import SignInButton from './SignInButton'
 import { useAuthStore } from 'stores/authStore'
-import { Bars3Icon, PlusIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, PlusIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 
 const Navbar = () => {
@@ -38,7 +38,10 @@ const Navbar = () => {
       {showMenu && (
         <div className="flex flex-col divide-y divide-base-300 border-b border-base-300 md:hidden shadow">
           {getLoggedInUserRole() == "ADMIN" && (
-            <Link to="/admin" className="btn btn-ghost rounded-none justify-start">Admin</Link>
+            <Link to="/admin" className="btn btn-icon btn-ghost rounded-none justify-start">
+              <SparklesIcon className='h-5 w-5' />
+              Admin
+            </Link>
           )}
           {getLoggedInUserRole() == "TEACHER" && (
             <Link to="/teachers/class/create" className="btn btn-icon btn-ghost rounded-none justify-start">
